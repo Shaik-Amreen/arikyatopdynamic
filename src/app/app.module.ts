@@ -9,13 +9,32 @@ import { CodingAdminModule } from './organisation-employees/coding-admin/coding-
 import { QuizAdminModule } from './organisation-employees/quiz-admin/quiz-admin.module';
 import { StudentViewAdminModule } from './organisation-employees/student-view-admin/student-view-admin.module';
 import { PlacementDataModule } from './organisation-employees/placement-data/placement-data.module';
+import { ArikyaHomePageComponent } from './arikya-home-page/arikya-home-page.component';
+import { ArikyaContactComponent } from './arikya-contact/arikya-contact.component';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
+import { LoginComponent } from './login/login.component';
+import { PageNotExistComponent } from './page-not-exist/page-not-exist.component';
+import { StudentCompanyRegistrationModule } from './student-company-registration/student-company-registration.module';
+import { SignupComponent } from './signup/signup.component';
+import { CalendarComponent } from './common-components/calendar/calendar.component';
+import { ChangePasswordComponent } from './common-components/change-password/change-password.component';
+
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    OrganisationEmployeesComponent
+    OrganisationEmployeesComponent,
+    ArikyaHomePageComponent,
+    ArikyaContactComponent,
+    ForgotPasswordPageComponent,
+    LoginComponent,
+    PageNotExistComponent,
+    SignupComponent,
+    CalendarComponent,
+    ChangePasswordComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -25,6 +44,7 @@ import { PlacementDataModule } from './organisation-employees/placement-data/pla
     QuizAdminModule,
     StudentViewAdminModule,
     PlacementDataModule,
+    StudentCompanyRegistrationModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
