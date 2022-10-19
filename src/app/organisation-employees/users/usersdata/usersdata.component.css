@@ -1,0 +1,92 @@
+.layout {
+ 
+    height: 100%;
+}
+
+.spacing {
+    margin: 2%;
+    margin-bottom: 0%;
+}
+
+button {
+    width: 100%;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+    font-size: 12px;
+    border-radius: 0px;
+    color: grey;
+    padding: 3%
+}
+
+.table button {
+    width: 70%;
+    border: none;
+    color: #00b0ff;
+}
+
+.card {
+    text-align: center;
+}
+
+.card button {
+    width: auto;
+    margin: 1%;
+    float: right;
+}
+
+.buttoncolor {
+    background-color: #383737;
+    ;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #fff !important;
+    border: none;
+}
+
+.dangercolor {
+    color: white;
+    background-color: crimson;
+    border-radius: 20px;
+}
+
+.aligncenter {
+    padding-top: 10%
+}
+
+#sub:hover {
+    background-color: #fff;
+    color: #1b1c1e !important;
+}
+
+input {
+    font-size: 0.8rem;
+}
+
+.container {
+    height: 100vh;
+}
+
+.users {
+    width: 15vw
+}
+
+label {
+    font-weight: 600;
+
+    font-size: 0.8rem;
+}
+
+#b {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 0.5rem 2rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 7px;
+}
+
+.btn {
+    border-radius: 10px;
+    background-color: #fff;
+}

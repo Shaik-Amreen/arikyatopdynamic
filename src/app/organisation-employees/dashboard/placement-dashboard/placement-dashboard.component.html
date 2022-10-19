@@ -1,1 +1,59 @@
-<p>placement-dashboard works!</p>
+<div [ngClass]="optionsdata.length==0?'no':''" style="padding: 1vw;height: 98vh;">
+    <div *ngIf="data else nodata">
+        <div class="row" style="max-height: 2vh;margin-left: 5rem;">
+            <div class="col-sm-8">
+
+            </div>
+            <div class="col-sm-3"
+                style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;padding: 0%;border-radius:7px">
+                <select (change)="tempdatafunc()" [(ngModel)]="status" type="text" name="type"
+                    class="form-select shadow-none" placeholder="start typing student rollnumber"
+                    style="border:none;background-color: #fff;font-size: 0.8rem;border-radius: 7px;">
+                    <option value="all">All placement cycles</option>
+                    <option value="ongoing">Ongoing placement cycles</option>
+                    <option *ngFor="let c of placementcycles" value="{{c.placementcyclename}}">{{c.placementcyclename}}
+                    </option>
+                </select>
+            </div>
+
+
+
+        </div>
+        <br /><br />
+
+        <div *ngIf="optionsdata.length>0 else empty">
+            <div *ngFor="let c of optionsdata">
+                <br /><br />
+
+                <strong style="font-size: 1.2rem;color: #1b1c1e;">{{c[0][1].title}}</strong>
+
+                <br /><br />
+                <div echarts [options]="c[0][0]" class="demo-chart"></div>
+                <br />
+                <div *ngFor="let p of c[1]" style="margin:0rem 10rem;">
+
+                    <div echarts [options]="p" class="demo-chart"></div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+
+    <ng-template #empty>
+        <div style="display: flex;justify-content: center;align-items: center;height: 80vh;background-color: #f4f7fb;">
+            <div style="text-align: center;">
+                <img src="../../../assets/search.gif" style="height: 300px;"><br>
+                <h5 style="color: #1b1c1e;"><strong>We could not find any placement status .</strong></h5>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #nodata>
+        <div style="display: flex;justify-content: center;align-items: center;height: 90vh;background-color: #f4f7fb;">
+            <div style="text-align: center;">
+                <img src="../../../assets/loading.gif"><br>
+            </div>
+        </div>
+    </ng-template>
+
+</div>

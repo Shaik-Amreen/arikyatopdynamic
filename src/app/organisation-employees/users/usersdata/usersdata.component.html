@@ -1,1 +1,163 @@
-<p>usersdata works!</p>
+<div class="layout" *ngIf="nodata else nodat">
+    <div class="row justify-content-md-center" *ngIf="facdata.length>0 else showdatastatus">
+        <div class="col-4 spacing">
+            <table class="table">
+                <tr>
+                    <td style="font-size: 1.2rem;"><strong>USERS</strong></td>
+
+
+                    <td>
+                        <span>
+                            <button routerLink="/admin/users/addusers" class="buttoncolor"
+                                style="background-color: #1b1c1e;color: cornsilk; display: flex; justify-content: center;align-items: center;"><i
+                                    class='bx bx-add-to-queue'></i>
+                                Add-User</button>
+                        </span>
+                    </td>
+                  
+                </tr>
+
+            </table>
+            <span
+                style="padding: 0px;background-color: #fff;border-radius: 7px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;display: flex;justify-content: center;align-items: center;width: 15vw;margin-top: -1.5vw;">
+                <input [(ngModel)]="type" type="text" name="type" class="form-control shadow-none"
+                    placeholder="start typing faculty mail id"
+                    style="border: none;background-color: #fff;font-size: 0.8rem;" />
+                <i class="bx bx-search" style="font-size: 1rem;font-weight: 600"></i>&nbsp;
+            </span><br />
+            <div class="table-responsive users" style=" max-height:76vh">
+                <table class="users">
+                    <tbody *ngFor=" let d of facdata;index as i">
+                        <tr *ngIf="type=='' || d.mail.includes(type)">
+                            <td>
+                                <div style="margin-bottom: 1vh;">
+                                    <button id="sub" [ngClass]="d==selectedUser ? 'buttoncolor' : 'btn'"
+                                        (click)="selectUser(i)"><strong>{{d.firstname}}</strong><br>{{d.designation}}<br>{{d.mail}}</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col spacing " style="display: flex;justify-content: flex-start;align-items: center;height: 80vh;">
+            <div class="card  p-3"
+                style="font-size: 15px;box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;width:40vw"
+                *ngIf="selectedMode else empty">
+                <div *ngIf="edit==false else editmode">
+                    <div class="row">
+                        <div class="col-3" style="color: #5ec6f6;font-size: 100px;">
+                            <i class='bx bxs-user-circle'></i>
+                        </div>
+                        <div class="col" style="text-align: left;color: grey;"><br>
+                            <strong> {{selectedUser.firstname}} {{selectedUser.middlename}}
+                                {{selectedUser.lastname}}</strong><br>
+                            {{selectedUser.designation}}<br>
+                            {{selectedUser.role}}<br>
+                            {{selectedUser.mail}}<br>
+                            <span *ngIf="selectedUser.status=='no'">Dropped</span>
+                        </div>
+                        <div class="col" *ngIf="selectedUser.role!='admin'" style="color: grey;"><br>
+                            <strong style="font-size: 1rem;">CODE ADMIN
+                                <span style="font-size: 1.4rem;margin-left: 2vh;color: #00b0ff;">
+                                    <span *ngIf="codeaccess" (click)="codeaccess=false;access()"><i
+                                            class='fa fa-toggle-on'></i></span>
+                                    <span *ngIf="!codeaccess" (click)="codeaccess=true;access()"><i
+                                            class='fa fa-toggle-off'></i></span>
+                                </span>
+                            </strong><br>
+                            <strong style="font-size: 1rem;">QUIZ ADMIN
+                                <span style="font-size: 1.4rem;margin-left: 2vh;color: #00b0ff;">
+                                    <span *ngIf="quizaccess" (click)="quizaccess=false;access()"><i
+                                            class='fa fa-toggle-on'></i></span>
+                                    <span *ngIf="!quizaccess" (click)="quizaccess=true;access()"> <i
+                                            class='fa fa-toggle-off'></i></span>
+                                </span>
+                            </strong>
+                        </div>
+                    </div>
+                    <div>
+                        <button *ngIf="facdata.length>1 && mail!=selectedUser.mail" class="dangercolor p-2"
+                            (click)="deleteuser()">Delete User<i class='bx bxs-trash'></i></button>
+                        <button class="buttoncolor p-2" (click)="edit=true"><i class='bx bxs-edit'></i>Edit</button>
+                    </div>
+
+
+                </div>
+                <ng-template #editmode>
+                    <form style="text-align:left;margin:3vh" [formGroup]="userSignUpForm">
+                        <div class="row">
+                            <div class="col">
+                                <label style="color: gray;">First name</label><br>
+                                <input class="form-control shadow-none" formControlName="firstname"><br>
+                            </div>
+                            <div class="col">
+                                <label style="color: gray;">Middle name</label><br>
+                                <input class="form-control shadow-none" formControlName="middlename"><br>
+                            </div>
+                            <div class="col">
+                                <label style="color: gray;">Last name</label><br>
+                                <input class="form-control shadow-none" formControlName="lastname"><br>
+                            </div>
+                        </div>
+                        <label style="color: gray;">Designation</label><br>
+                        <input class="form-control shadow-none" formControlName="designation"><br>
+                        <label *ngIf=" mail!=selectedUser.mail" style="color: gray;">Role</label><br>
+                        <select class="form-select" formControlName="role" style="width: 100%;"
+                            *ngIf=" mail!=selectedUser.mail">
+                            <option value="admin">Admin</option>
+                            <option value="faculty">Faculty</option>
+                            <option value="student">Student</option>
+                        </select><br />
+                        <button style="background: #1b1c1e;" id="b" (click)="save()">Save</button>
+                        <button style="background:#a5081a" id="b" (click)="edit=false">Close</button>
+                    </form>
+                </ng-template>
+
+
+            </div>
+            <ng-template #empty>
+                <div style="height:50vh;width: 100%;display: flex;justify-content: center;align-items: center;">
+                    <strong style="color: #1b1c1e;font-size: 2.5rem;">
+
+                        Please select user .
+                    </strong>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <ng-template #showdatastatus>
+        <div class="col-4 spacing">
+            <table class="table">
+                <tr>
+                    <td style="font-size: 2rem;"><strong>USERS</strong></td>
+
+
+                    <td>
+                        <span>
+                            <button routerLink="/admin/users/addusers" class="buttoncolor"
+                                style="background-color: #1b1c1e;color: cornsilk; display: flex; justify-content: center;align-items: center;"><i
+                                    class='bx bx-add-to-queue'></i>
+                                Add-Employee</button>
+                        </span>
+                    </td>
+                    
+                </tr>
+
+            </table>
+        </div>
+        <div style="display: flex;justify-content:center;">
+            <img src="../../../assets/search.gif" style="max-height: 300px;"><br>
+            No employees found
+        </div>
+    </ng-template>
+</div>
+<ng-template #nodat>
+    <div style="display: flex;justify-content: center;align-items: center;height: 90vh;">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+
+        </div>
+    </div>
+
+</ng-template>

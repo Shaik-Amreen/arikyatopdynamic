@@ -1,0 +1,12 @@
+@import url('../../../login/login.component.css');
+
+
+button {
+    width: 7rem;
+}
+
+input,
+select {
+    font-size: 0.8rem;
+    width: 100%;
+}

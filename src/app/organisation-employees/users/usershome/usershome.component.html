@@ -1,1 +1,39 @@
-<p>usershome works!</p>
+<br><br>
+<strong style="font-size: 1.2rem;color: #1b1c1e;">CREATE NEW USER .</strong>
+<br><br>
+<form [formGroup]="formgroupdata" (ngSubmit)="add()" class="col-sm-6"
+    style="margin-left: 3vw;background-color: #fff;padding: 2rem;border-radius: 5px;">
+    <span *ngFor="let c of formdata">
+
+        <span *ngIf="c.tags=='input'"><br />
+            <strong>{{c.label}}</strong>
+            <span class="input-icons">
+                <i class="{{c.icon}}"></i>
+                <input class="form-control shadow-none" style="padding-left: 40px;" placeholder="{{c.placeholder}}"
+                    formControlName="{{c.formname}}">
+            </span>
+            <span style="color: #a5081a;"
+                *ngIf="formgroupdata.controls[c.formname].status=='INVALID' && formvalue==true">
+                please fill this field
+            </span>
+        </span>
+
+        <span *ngIf="c.tags=='select'"><br />
+            <strong>{{c.label}}</strong>
+            <select class="form-select" formControlName="{{c.formname}}">
+                <option value="" selected disabled>Please select</option>
+                <option value="{{i.value}}" *ngFor="let i of c.options">
+                    {{i.label}}
+
+                </option>
+            </select>
+            <span style="color: #a5081a;"
+                *ngIf="formgroupdata.controls[c.formname].status=='INVALID' && formvalue==true">
+                Please select this field
+            </span><br /><br />
+        </span>
+      
+    </span>
+    <button style="background: #1b1c1e;" type="submit" class="btn btn-secondary">Submit</button>&nbsp;&nbsp;
+    <button style="background:#a5081a" type="button" class="btn btn-danger" routerLink="/admin/users">Close</button>
+</form>

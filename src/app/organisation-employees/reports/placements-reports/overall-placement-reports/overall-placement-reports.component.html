@@ -1,1 +1,214 @@
-<p>overall-placement-reports works!</p>
+<div style="max-height:92vh;padding:2rem;" class="table-responsive">
+    <div class="row" style="max-height: 2vh;margin-left: 5rem;">
+        <div class="col-sm-5">
+
+        </div>
+        <div class="col-sm-3" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;padding: 0%;border-radius:7px">
+            <select [(ngModel)]="status" type="text" name="type" class="form-select shadow-none"
+                placeholder="start typing student rollnumber"
+                style="border:none;background-color: #fff;font-size: 0.8rem;border-radius: 7px;">
+                <option value="all">All placement cycles</option>
+                <option value="ongoing">Ongoing placement cycles</option>
+                <option *ngFor="let c of placementcycles" value="{{c.placementcyclename}}">{{c.placementcyclename}}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-sm-3"
+            style="background-color: #fff;border-radius: 7px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;display: flex;justify-content: center;align-items: center;margin-left: 1rem;">
+            <input [(ngModel)]="type" type="text" name="type" class="form-control shadow-none"
+                placeholder="start typing company name" (change)="tempdatafunc()"
+                style="border: none;background-color: #fff;font-size: 0.8rem;" />
+            <i class="bx bx-search" style="font-size: 1rem;font-weight: 600"></i>
+        </div>
+        <!-- <div class="col-sm-1">
+            <button class="btn btn-primary shadow-none" (click)="exportToExcel()"
+                style="background-color: #00b0ff;font-size: 0.8rem;">
+                Download
+            </button>
+        </div> -->
+    </div>
+
+
+    <div *ngIf="data else nodat">
+        <div *ngIf="tempdatafunc().length>0 else noresults">
+            <div *ngFor="let c of tempdatafunc()"><br><br>
+                <span>
+                    <h5 style="color: #1b1c1e;">{{c.placementcyclename | uppercase}}</h5>
+                    <span style="float: right;">
+                        <button class="btn btn-primary" style="font-size: 0.7rem;background-color:#00b0ff"
+                            (click)="exportexcel('placementcycle',c.placementcyclename)">
+                            Download
+                            <i class="bx bxs-downvote"></i>
+                        </button>
+                    </span>
+                </span>
+                <table class="table table-bordered table-striped text-center" style="font-size: 0.8rem;"
+                    id="placementcycle">
+                    <thead style="background-color: #1b1c1e;color: #fff !important;border-bottom: none;">
+                        <tr>
+                            <td>DEPARTMENT</td>
+                            <td>ELIGIBLE</td>
+                            <td>ADDED</td>
+                            <td>NOT ADDED</td>
+                            <td>INTERESTED</td>
+                            <td>NOT INTERESTED</td>
+                            <td>REGISTERED</td>
+                            <td>NOT REGISTERED</td>
+                            <td>OFFERED</td>
+                            <td>PLACED</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ALL</td>
+                            <td>{{c['cse'].eligible.length+c['ece'].eligible.length+c['eee'].eligible.length+c['mech'].eligible.length+
+                                c['cst'].eligible.length+c['mba'].eligible.length+c['mca'].eligible.length+c['civil'].eligible.length}}
+                            </td>
+                            <td>{{c['cse'].addedstudents.length+c['ece'].addedstudents.length+c['eee'].addedstudents.length+c['mech'].addedstudents.length+
+                                c['cst'].addedstudents.length+c['mba'].addedstudents.length+c['mca'].addedstudents.length+c['civil'].addedstudents.length}}
+                            </td>
+                            <td>{{c['cse'].notaddedstudents.length+c['ece'].notaddedstudents.length+c['eee'].notaddedstudents.length+c['mech'].notaddedstudents.length+
+                                c['cst'].notaddedstudents.length+c['mba'].notaddedstudents.length+c['mca'].notaddedstudents.length+c['civil'].notaddedstudents.length}}
+                            </td>
+                            <td>{{c['cse'].interested.length+c['ece'].interested.length+c['eee'].interested.length+c['mech'].interested.length+
+                                c['cst'].interested.length+c['mba'].interested.length+c['mca'].interested.length+c['civil'].interested.length}}
+                            </td>
+                            <td>{{c['cse'].notinterested.length+c['ece'].notinterested.length+c['eee'].notinterested.length+c['mech'].notinterested.length+
+                                c['cst'].notinterested.length+c['mba'].notinterested.length+c['mca'].notinterested.length+c['civil'].notinterested.length}}
+                            </td>
+                            <td>{{c['cse'].comregister.length+c['ece'].comregister.length+c['eee'].comregister.length+c['mech'].comregister.length+
+                                c['cst'].comregister.length+c['mba'].comregister.length+c['mca'].comregister.length+c['civil'].comregister.length}}
+                            </td>
+                            <td>{{c['cse'].comnotregister.length+c['ece'].comnotregister.length+c['eee'].comnotregister.length+c['mech'].comnotregister.length+
+                                c['cst'].comnotregister.length+c['mba'].comnotregister.length+c['mca'].comnotregister.length+c['civil'].comnotregister.length}}
+                            </td>
+                            <td>{{c['cse'].offered.length+c['ece'].offered.length+c['eee'].offered.length+c['mech'].offered.length+
+                                c['cst'].offered.length+c['mba'].offered.length+c['mca'].offered.length+c['civil'].offered.length}}
+                            </td>
+                            <td>{{c['cse'].placed.length+c['ece'].placed.length+c['eee'].placed.length+c['mech'].placed.length+
+                                c['cst'].placed.length+c['mba'].placed.length+c['mca'].placed.length+c['civil'].placed.length}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let d of departments">
+                            <td>{{d | uppercase}}</td>
+                            <td>{{c[d].eligible.length}}</td>
+                            <td>{{c[d].addedstudents.length}}</td>
+                            <td>{{c[d].notaddedstudents.length}}</td>
+                            <td>{{c[d].interested.length}}</td>
+                            <td>{{c[d].notinterested.length}}</td>
+                            <td>{{c[d].comregister.length}}</td>
+                            <td>{{c[d].comnotregister.length}}</td>
+                            <td>{{c[d].offered.length}}</td>
+                            <td>{{c[d].placed.length}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- {{c.companyplacements | json}} -->
+                <div *ngFor="let p of tempcompanyfunc(c.companyplacements)" style="margin: 2rem;">
+                    <!-- <button class="btn btn-primary shadow-none"
+                        style="background-color: #00b0ff;font-size: 0.7rem;float: right;"
+                        (click)="exportExcel(c,p)">Click to download {{p.company}} status
+                        <i class="bx bxs-downvote"></i>
+                    </button> -->
+                    <span style="float: right;">
+                        <button class="btn btn-primary" style="font-size: 0.7rem;background-color:#00b0ff"
+                            (click)="exportExcel(c,p)">Click to download {{p.company}} status
+                            <i class="bx bxs-downvote"></i>
+                        </button>
+                    </span>
+                    <table class="table table-bordered table-striped text-center" style="font-size: 0.8rem;width: 77vw;"
+                        id="companystatus">
+
+                        <thead style="background-color: #1b1c1e;color: #fff !important;border-bottom: none;">
+                            <tr>
+                                <td>DEPARTMENT</td>
+                                <td>COMPANY NAME</td>
+                                <td>ELIGIBLE</td>
+                                <td>REGISTERED</td>
+                                <td>OFEFRED</td>
+                                <td>PLACED</td>
+                                <td>NOT REGISTERED</td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ALL</td>
+                                <td><strong>{{p.company}}</strong></td>
+                                <td>
+                                    {{
+
+                                    p['cse'].comregistercompany.length+
+                                    p['ece'].comregistercompany.length+
+                                    p['ece'].comnotregistercompany.length+
+                                    p['eee'].comregistercompany.length+
+                                    p['mech'].comregistercompany.length+
+                                    p['cst'].comregistercompany.length+
+                                    p['mba'].comregistercompany.length+
+                                    p['mca'].comregistercompany.length+
+                                    p['civil'].comregistercompany.length+
+                                    p['cse'].comnotregistercompany.length+
+                                    p['eee'].comnotregistercompany.length+
+                                    p['mech'].comnotregistercompany.length+
+                                    p['cst'].comnotregistercompany.length+
+                                    p['mba'].comnotregistercompany.length+
+                                    p['mca'].comnotregistercompany.length+
+                                    p['civil'].comnotregistercompany.length
+                                    }}
+                                </td>
+                                <td>{{p['cse'].comregistercompany.length+p['ece'].comregistercompany.length+
+                                    p['eee'].comregistercompany.length+p['mech'].comregistercompany.length+
+                                    p['cst'].comregistercompany.length+p['mba'].comregistercompany.length+p['mca'].comregistercompany.length+p['civil'].comregistercompany.length}}
+                                </td>
+                                <td>{{p['cse'].offeredcompany.length+p['ece'].offeredcompany.length+
+                                    p['eee'].offeredcompany.length+p['mech'].offeredcompany.length+
+                                    p['cst'].offeredcompany.length+p['mba'].offeredcompany.length+p['mca'].offeredcompany.length+p['civil'].offeredcompany.length}}
+                                </td>
+                                <td>{{p['cse'].placedcompany.length+p['ece'].placedcompany.length+
+                                    p['eee'].placedcompany.length+p['mech'].placedcompany.length+
+                                    p['cst'].placedcompany.length+p['mba'].placedcompany.length+p['mca'].placedcompany.length+p['civil'].placedcompany.length}}
+                                </td>
+                                <td>{{p['cse'].comnotregistercompany.length+p['ece'].comnotregistercompany.length+
+                                    p['eee'].comnotregistercompany.length+p['mech'].comnotregistercompany.length+
+                                    p['cst'].comnotregistercompany.length+p['mba'].comnotregistercompany.length+p['mca'].comnotregistercompany.length+p['civil'].comnotregistercompany.length
+                                    }}</td>
+                            </tr>
+                            <tr *ngFor="let d of departments">
+                                <td>{{d | uppercase}}</td>
+                                <td><strong>{{p.company}}</strong></td>
+                                <td>{{p[d].comnotregistercompany.length+p[d].comregistercompany.length}}</td>
+                                <td>{{p[d].comregistercompany.length}}</td>
+                                <td>{{p[d].offeredcompany.length}}</td>
+                                <td>{{p[d].placedcompany.length}}</td>
+                                <td>{{p[d].comnotregistercompany.length}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+        </div>
+        <ng-template #noresults>
+            <div style="display: flex;justify-content: center;align-items: center;height: 60vh;">
+                <div style="text-align: center;">
+                    <img src="../../../assets/search.gif" style="max-height:300px"><br>
+                    <h5><strong>We could not find any reports .</strong></h5>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+
+
+    <ng-template #nodat>
+        <div style="display: flex;justify-content: center;align-items: center;height: 80vh;">
+            <div style="text-align: center;">
+                <img src="../../../assets/loading.gif"><br>
+                <h5><strong>Time to relax !!!
+                    </strong></h5>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>

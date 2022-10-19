@@ -1,1 +1,117 @@
-<p>quiz-reports works!</p>
+<div class="row" *ngIf="nodata else nodat" style="max-height: 88vh">
+    <div class="col-sm-2 " style="margin: 1rem;height: 83vh;margin-top: 0.5rem;">
+        <h6 style="color: #1b1c1e;"><strong>QUIZ TOPICS</strong></h6>
+        <div class="table-responsive" style="max-height: 80vh;">
+            <table class="table table-borderless " style="font-size: 0.8rem;color: grey;">
+                <tbody>
+                    <tr><button (click)="visibleData=overallquizdata;heading='OVERALL TOPICS'" id="sub"
+                            [ngClass]="heading=='OVERALL TOPICS' ? 'btn btncard buttoncolor':'btn btncard'">OVERALL
+                            TOPICS</button></tr>
+                    <tr *ngFor="let t of topics">
+                        <td style="padding:0%;"><button (click)="eachtest(t.topic)" id="sub"
+                                [ngClass]="heading==t.topic ? 'btn btncard buttoncolor':'btn btncard'">{{t.topic}}
+                            </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="row">
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-3"
+                style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;padding: 0%;border-radius:7px">
+                <select [(ngModel)]="status" type="text" name="type" class="form-select shadow-none"
+                    placeholder="start typing student rollnumber"
+                    style="border:none;background-color: #fff;font-size: 0.8rem;border-radius: 7px;">
+                    <option value="all">All</option>
+                    <option value="cse">CSE</option>
+                    <option value="ece">ECE</option>
+                    <option value="eee">EEE</option>
+                    <option value="mech">MECH</option>
+                    <option value="cst">CST</option>
+                    <option value="civil">CIVIL</option>
+                    <option value="mba">MBA</option>
+                    <option value="mca">MCA</option>
+                </select>
+            </div>
+
+            <div class="col-sm-3"
+                style="background-color: #fff;border-radius: 7px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;display: flex;justify-content: center;align-items: center;margin-left: 1rem;">
+                <input [(ngModel)]="type" type="text" name="type" class="form-control shadow-none"
+                    placeholder="start typing student rollnumber"
+                    style="border: none;background-color: #fff;font-size: 0.8rem;" />
+                <i class="bx bx-search" style="font-size: 1rem;font-weight: 600"></i>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-primary shadow-none" (click)="exportToExcel()"
+                    style="background-color: #00b0ff;font-size: 0.8rem;">
+                    Download
+                </button>
+            </div>
+        </div>
+
+        <div style="max-height: 76vh;" class="table-responsive">
+            <h6 style="color: #1b1c1e;"><strong>{{heading | uppercase}}</strong></h6>
+            <div *ngIf="loadstatus else displaydata" style="display: flex;justify-content: center;align-items: center;">
+                <div>
+                    <img src="../../../assets/loading.gif"><br>
+                    <h5><strong>Reports are on the way . please wait !
+                        </strong></h5>
+                </div>
+            </div>
+            <ng-template #displaydata>
+                <table *ngIf="tempdatafunc(visibleData).length>0 else noresults"
+                    class="table text-center table-bordered table-striped"
+                    style="font-size: 0.8rem;margin: 0%;width:67vw;">
+                    <thead>
+                        <tr id="scrtop" style="background-color: #1b1c1e;color: #fff !important;border-bottom: none;">
+                            <td>STUDENT_ID</td>
+                            <td>FULL NAME</td>
+                            <td>COURSE</td>
+                            <td>BRANCH</td>
+                            <td>YEAR</td>
+                            <td *ngIf="heading=='OVERALL TOPICS'">TOTAL TESTS</td>
+                            <td *ngIf="heading=='OVERALL TOPICS'">ATTEMPTED TESTS</td>
+                            <td>RANK</td>
+                            <td>RATING</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of tempdatafunc(visibleData);index as i">
+                            <td>{{data.rollno}}</td>
+                            <td>{{ data.firstname }} {{ data.middlename }} {{ data.lastname }} </td>
+                            <td>{{ data.course | uppercase }}</td>
+                            <td>{{ data.dept | uppercase}}</td>
+                            <td>{{ data.currentyear }}</td>
+                            <td *ngIf="heading=='OVERALL TOPICS'">{{ data.total }}</td>
+                            <td *ngIf="heading=='OVERALL TOPICS'">{{data.count}}</td>
+                            <td>{{i+1}}</td>
+                            <td>{{data.main}}</td>
+                        </tr>
+                    </tbody>
+                    <i class='bx bxs-up-arrow-circle bx-tada' (click)="scrolltop()" style='color:#00b0ff;cursor: pointer;;position: absolute;bottom: 1rem;right: 2rem;font-size:50px;
+                      overflow: hidden;margin: 5px;border: transparent;overflow: hidden;margin-top: -50px;'  to='#scrtop' smooth={true} duration={1000} ></i>    
+                </table>
+                <ng-template #noresults>
+                    <div style="display: flex;justify-content: center;align-items: center;height: 60vh;">
+                        <div style="text-align: center;">
+                            <img src="../../../assets/search.gif" style="max-height:300px"><br>
+                            <h5><strong>We could not find any reports .</strong></h5>
+                        </div>
+                    </div>
+                </ng-template>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<ng-template #nodat>
+    <div style="display: flex;justify-content: center;align-items: center;height: 80vh;">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+            <h5><strong>Reports are on the way . please wait !
+                </strong></h5>
+        </div>
+    </div>
+</ng-template>
