@@ -1,1 +1,102 @@
-<p>login works!</p>
+<div id="fullpage">
+    <div class="row  alignments">
+        <div class="col-sm-6" id="desktop" style="height: 90vh;cursor: pointer;">
+            <div style="display: flex;" routerLink="/arikya">
+                <img src="assets/logo.png" style="height: 60px;">
+                <div style="margin-top:0.7rem">
+                    <h1 style="font-size: 30px;font-family: 'Saira Stencil One', 'cursive';background: linear-gradient(144deg, rgba(0,176,255,1) 40%, rgba(27,28,30,1) 100%);-webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;">
+                        ARIKYA</h1>
+                </div>
+            </div>
+            <br />
+            <div style="padding-left: 10vw;margin-top: 2rem;">
+                <img src="assets/sidelogo.gif" id="side">
+            </div>
+        </div>
+        <div *ngIf="viewforgotpass" class="col-sm  content">
+            <h1 style="font-family: 'Poppins', sans-serif;">Log in to ARIKYA</h1>
+            <span id="subtext" style="color:#1b1c1e">To keep connected with us please login with your info .
+            </span><br>
+            <form (ngSubmit)="signIn()" [formGroup]="formgroupdata">
+                <span style="color: #a5081a;" *ngIf="errorMessage.includes('signup')">
+                    <br /><strong>{{errorMessage}}</strong><br /></span>
+                <span *ngFor="let k of formdata"><br>
+                    <strong style="color:#1b1c1e">{{k.label}}</strong>
+                    <div
+                        style="display: flex;background-color: #fff;border-radius: 4px;padding: 0rem 0.5rem;border: 0.2px solid rgb(209, 209, 209);">
+                        <i class={{k.icon}} style="font-size: 1.3rem;margin-top: 0.5rem;"></i>
+                        <input class="iconinput" style="border: none;"
+                            [type]='k.type=="password"? (temp? "text" : "password"):"text"'
+                            [ngClass]="formgroupdata.controls[k.formname].status=='INVALID' && formvalue==true ? 'form-control  shadow-none invalidstyle' : 'form-control  shadow-none'"
+                            formControlName="{{k.formname}}" placeholder={{k.placeholder}} type={{k.type}}
+                            *ngIf="k.tags=='input'">
+                        <span *ngIf="k.type=='password'">
+                            <span *ngIf="!temp" (click)="temp=!temp"><i class='{{k.icon1}}'
+                                    style="font-size: 1.3rem;margin-top: 0.5rem;"></i></span>
+                            <span *ngIf="temp" (click)="temp=!temp"><i class='{{k.icon2}}'
+                                    style="font-size: 1.3rem;margin-top: 0.5rem;"></i></span>
+                        </span>
+                    </div>
+                    <span class="danger" style="font-size: 0.8rem;">
+                        <span *ngIf="k.formname=='mail' && errorMessage=='Invalid mail'">
+                            &nbsp;{{errorMessage}}
+                        </span>
+                        <span *ngIf="k.formname=='password' && errorMessage=='Invalid password'">
+                            &nbsp;{{errorMessage}}
+                        </span>
+                    </span>
+                    <span style="color: #a5081a;"
+                        *ngIf="formgroupdata.controls[k.formname].status=='INVALID' && formvalue==true">
+                        please fill this field
+                    </span>
+                </span><br>
+                <strong style="float: right;color: #00B0FF;" id="press" (click)="changeMode()">Forgot password ?
+                </strong><br>
+                <button id="but" type="submit" class="btn btn-primary">{{signin}}</button>
+            </form><br>
+            <span>Don't have an account ? <strong id="press" style="color: #00B0FF;" routerLink='/signup'>Create a new
+                    account . </strong></span>
+            <div class="col-sm-6 " id="mobile">
+                <img src="assets/sidelogo.gif" style="height:200px;margin-left: 2rem;">
+            </div>
+        </div>
+
+        <div *ngIf="!viewforgotpass" class="col-sm  content">
+            <div class="form-container sign-up-container">
+                <form #f="ngForm" (ngSubmit)="forget(f)" *ngIf='buttonMode!="SENT" else sent'>
+                    <div class="danger" *ngIf="mailerr!=''"><i class='bx bxs-error'></i>&nbsp;{{mailerr}}<br><br></div>
+                    <h1 style="font-family: 'Poppins', sans-serif;">Change password</h1><br />
+                    <input (click)="mailerr=''" class="form-control shadow-none" type="mail" placeholder="EMAIL"
+                        required [(ngModel)]="mail" name="mail" required /><br />
+                    <button type="submit" class="btn btn-primary " style="background-color: #00B0FF;"
+                        [disabled]="!f.valid || buttonMode=='SENDING' ">{{buttonMode}}
+                        <div class="spinner-grow spinner-grow-sm" style="color: aliceblue;" role="status"
+                            *ngIf="buttonMode=='SENDING'"></div>
+                    </button>
+                    <br />
+                </form>
+                <ng-template #sent>
+                    <form #f="ngForm" (ngSubmit)="checkOtp(f)">
+                        <div class="danger" *ngIf="invalidotp"><i class='bx bxs-error'></i>&nbsp;INVALID OTP<br><br>
+                        </div>
+                        <input type='number' class="form-control shadow-none" [(ngModel)]='otp' name='otp'
+                            placeholder="ENTER OTP" /><br>
+                        <button type="submit" class="btn btn-primary" style="background-color: #00B0FF;">VERIFY
+                            OTP</button><br><br />
+                        <div class="danger">Hurry Up ! {{timeRemained}} seconds remained .</div>
+                        <br>
+
+                    </form>
+                </ng-template><br />
+            </div>
+            <div (click)="viewforgotpass=!viewforgotpass" style="cursor: pointer;">Remember password ? <strong
+                    style="color: #00B0FF;">Log In
+                    .</strong></div>
+            <div class="col-sm-6 " id="mobile">
+                <img src="assets/sidelogo.gif" style="height:270px;margin-top: 5rem;">
+            </div>
+        </div>
+    </div>
+</div>
+

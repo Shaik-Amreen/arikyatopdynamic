@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
-import { CommonService } from '../../../services/common.service';
+import { CommonApiCallService } from 'src/app/services/common-api-call.service';
 import { ExportExcelService } from 'src/app/services/export-excel.service';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';

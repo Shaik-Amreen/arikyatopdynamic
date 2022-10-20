@@ -1,1 +1,22 @@
-<p>student-company-registration-login works!</p>
+<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+<div>
+	<form [formGroup]="signInForm" (ngSubmit)="signIn()"><br>
+		<div class="danger" *ngIf="errorMode"><i class='bx bxs-error'></i>&nbsp;{{errorMessage}}</div><br>
+		<h1>Sign in</h1><br />
+		<div>
+			
+			<input type="mail" placeholder="EMAIL" id="mail" formControlName="mail" required />
+			<span *ngIf="signInForm.controls['mail'].errors?.required && formvalue">
+				*please fill this field
+			</span><br>
+			
+			<input type="password" placeholder="PASSWORD" id="password" formControlName="password" required />
+			<span *ngIf="signInForm.controls['password'].errors?.required && formvalue">
+				*please fill this field
+			</span>
+		</div>
+		<br><br>
+		<button [disabled]="!signInForm.valid">Sign In</button><br><br>
+	</form>
+</div>

@@ -1,0 +1,16 @@
+.layout {
+    padding: 2rem;
+    padding-top: 4rem;
+}
+
+td {
+    border: 2px solid whitesmoke;
+}
+
+tbody {
+    background-color: #fff;
+}
+
+input {
+    font-size: 0.8rem;
+}

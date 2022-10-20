@@ -1,0 +1,92 @@
+#radiobutton{
+    margin-right: 5px;
+}
+
+.layout{
+    height: 100vh;
+       font-weight: 700;
+    font-size:0.8rem;
+}
+
+
+input
+{
+  font-size: 0.8rem
+}
+
+.box1 button{
+    padding: 6%;
+    background-color: #00B0FF;
+  
+}
+.box2 button{
+  
+   background-color:#a5081a
+}
+  #but
+  {
+    background-color: #1b1c1e !important;
+    width: 10rem;
+  }
+#radiobutton{
+    text-align: 50px;
+}
+
+
+.view {
+    position: fixed;
+  left: 72%;
+  top: 10%;
+  right: 1%;
+  color: white;
+  padding:  15px;
+  background: #47cbff;
+  box-shadow: 0px 0px 10px 2px rgb(214, 210, 210);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  animation: fade 5s;
+  cursor: context-menu;
+}
+
+.btn1 {
+  font-weight: bold;
+  height: auto;
+  width: auto;
+  border-radius: 50%;
+  background: #49d9ef;
+  border: 4px solid white;
+  color: white;
+  padding: 5px;
+  margin-right: 5px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 10px 2px rgb(200, 198, 198);
+  cursor:context-menu;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+
+  }
+  100% {
+    opacity: 1;
+
+  }
+} 
+  
+  .imag{
+    width:100px;
+    height:100px;
+    margin-top: 5px;
+    /* border-radius: 50%; */
+    align-items: center;
+    justify-items: center;
+    cursor: pointer;
+    margin-left: 40%;
+    /* border: solid 2px white; */
+    box-shadow: 0px 0px 10px 2px rgb(122, 114, 114);
+}

@@ -1,0 +1,48 @@
+
+.layout{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+     justify-content: center;
+     display: flex;
+     padding: 0.7rem;
+     background-color: #f4f7fb
+ }
+ a{
+     color: #1b1c1e;
+     text-decoration: none;
+     margin-right: 2rem;
+     font-size: 1rem;
+    
+ }
+ .car{
+     padding: 0.7%;
+     margin-right: 1%;
+     padding-bottom: 0.1%;
+     cursor: pointer;
+     font-family: 'Roboto Slab', serif;
+     color: cornflowerblue;
+ }
+ .active{
+     padding-bottom: 0.7rem;
+     color:#00B0FF ;
+     font-weight: 700;
+     border-bottom: 2px solid #00B0FF;
+ }
+ .anothercomponents{
+ 
+     margin: 2%;
+ }
+ .fixposition{
+     position:'fixed';width:'100vw';top:'0%'
+ }
+ 
+ tr{
+    border-bottom: 0.2px solid lightgrey;
+    
+ }
+ 
+ td{
+     padding:0.2%
+ }
+ 
+ 
+ 

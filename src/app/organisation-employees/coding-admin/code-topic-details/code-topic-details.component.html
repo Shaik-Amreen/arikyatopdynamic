@@ -1,1 +1,95 @@
-<p>code-topic-details works!</p>
+<div *ngIf="nodata else nodat">
+    <div class="row "
+        style="border-radius: 7px;background-color: #fff;padding: 0.7rem;margin:0.5rem;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+        <div class="col-sm-1">
+            <strong [routerLink]="['/admin/code']"><br /><i class='bx bx-arrow-back'
+                    style="font-size:2rem ;color: #00B0FF;cursor: pointer;"></i></strong>
+        </div>
+        <div class="col-sm" style="margin-top: 0.7rem;"><strong style="font-size: 1.5rem;"> {{data.topic |
+                uppercase}}</strong>
+        </div>
+        <div class="col-sm-2" style="padding-top: 0.4rem;">
+            <strong> TOTAL QUESTIONS : {{data.questions.length}} </strong><br>
+            <strong>TOTAL MARKS : {{data.totalmarks}}</strong>
+        </div>
+        <div class="col-sm-2" style="padding-top: 0.4rem;">
+            <strong>ATTEMPTED STUDENTS : {{totalcount}}</strong>
+            <br /><strong>TOTAL TIME : {{data.totaltime}} minutes</strong>
+        </div>
+        <div class="col-sm" style="padding-top: 0.4rem;">
+            <strong> Start time : &nbsp;{{data.startson |date:'medium'}} <br>
+                <span *ngIf="endedit">
+                    <span style="color: #a5081a;cursor: pointer;"> Edit last date</span>
+                    <br />
+                    <input type="datetime-local" [(ngModel)]="endson" />
+                    <button (click)="updatendate()">Save</button>
+                </span>
+                <span *ngIf="!endedit">
+                    End time &nbsp;&nbsp;: &nbsp;{{data.endson | date:'medium'}}<br>
+                    <span style="color: #a5081a;cursor: pointer;" (click)="endedit=true">Extend last date ? </span>
+                </span>
+            </strong>
+        </div>
+
+        <div class="col-sm-1" *ngIf="editcode">
+            <i style="font-size: 2rem;float: right;color: #00B0FF;cursor: pointer;" (click)="switchedit()"
+                class='bx bxs-pencil'></i>
+        </div>
+    </div>
+
+    <div class="row table-responsive" style="padding: 1rem;height: 85vh;font-size: 0.8rem;">
+        <div *ngFor="let each of data.questions;index as i">
+            <div
+                style="background-color: #fff;border-radius: 10px;padding: 1rem;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                <span style="display: flex;" style="pointer-events: none;">
+                    <strong style="color: black;"> Question {{i+1}}</strong>
+
+
+                    <br /><br />
+                    <div [innerHTML]="each[0].questionis"></div>
+
+
+
+
+                </span>
+                <br>
+
+                <table class="table table-borderless table-striped text-center"
+                    style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;border-radius: 10px;">
+                    <tbody *ngFor=" let testcase of each[0].testcases;index as tc">
+                        <tr>
+                            <td>
+                                <strong>Test case input {{tc+1}}</strong>
+                            </td>
+                            <td><strong>Test case output
+                                    {{tc+1}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                        <tr *ngFor="let itn of testcase.input;index as itest" style="font-size: 0.7rem;">
+                            <td style="border:none"><strong>{{itn.invalue}}</strong> is
+                                parameter {{itest+1}}</td>
+                        </tr>
+
+                        </td>
+                        <td>
+                            <pre>{{testcase.output}}</pre>
+                        </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<ng-template #nodat>
+    <div style="display: flex;justify-content: center;align-items: center;height: 90vh;">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+
+        </div>
+    </div>
+</ng-template>

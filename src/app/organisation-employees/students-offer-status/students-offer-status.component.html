@@ -1,1 +1,28 @@
-<p>students-offer-status works!</p>
+<div style="padding: 4rem;">
+
+    <div style="display: flex;">
+        <select class="form-select shadow-none" (click)="showDownload=false" [(ngModel)]="placementcycle"
+            style="width: 60vw;">
+            <option value="" selected disabled>Please select placement cycle </option>
+            <option *ngFor="let c of placementdata" value="{{c.placementcyclename}}">
+                {{c.placementcyclename}}</option>
+        </select>&nbsp;&nbsp;
+        <button class="btn btn-primary" *ngIf="!showDownload" [disabled]="placementcycle==''" (click)="fetch()"
+            style="background-color: #00b0ff;"><span style="font-size: 1rem;">Fetch</span></button>
+    </div>
+    <br /><br />
+    <div class="row" *ngIf="showDownload">
+        <div class="col-sm-5"> <button (click)="exportExcel('single')" class="btn btn-primary"
+                style="background-color: #00b0ff;">Click to Download
+                Single offers student list <i style="font-size: 2rem;" class='bx bxs-down-arrow-alt bx-tada'></i>
+            </button>
+        </div>
+        <div class="col-sm-5"> <button (click)="exportExcel('multiple')" class="btn btn-primary"
+                style="background-color: #00b0ff;"> Click to Download
+                Multiple offers student list <i style="font-size: 2rem;"
+                    class='bx bxs-down-arrow-alt bx-tada'></i></button>
+        </div>
+
+    </div>
+
+</div>

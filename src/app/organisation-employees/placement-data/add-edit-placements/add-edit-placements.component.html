@@ -1,1 +1,107 @@
-<p>add-edit-placements works!</p>
+<div class="layout col-sm-8" *ngIf="nodata else nodat"><br>
+    
+    <h5 style="font-size: 1.3rem;color: #1b1d1e;"><strong>ADD A NEW PLACEMENT</strong></h5><br>
+    <div class="table-responsive" style="max-height: 80vh;">
+        <form [formGroup]="formgroupdata" (ngSubmit)="onSubmit()"
+            style="background-color: #fff;box-shadow: rgba(58, 54, 54, 0.2) 0px 2px 8px 0px;">
+            <div class="error text-center" *ngIf="errorMsg!='' && formgroupdata.status=='VALID'"
+                style="color: #a5081a;">
+                <i class='bx bxs-error'></i>&nbsp;{{errorMsg}}<br>
+            </div>
+            <span>{{errmsg}}</span>
+            <span *ngFor="let k of formdata">
+                <span *ngIf="k.tags=='input'"><br>
+                    <strong>{{k.label}}</strong>
+                    <div class="input-icons">
+                        <i class='{{k.icon}}'></i>
+                        <input id="{{k.formname}}" class="form-control shadow-none"
+                            [ngClass]="formgroupdata.controls[k.formname].status=='INVALID' && placementdata==true ? 'form-control  shadow-none invalidstyle' : 'form-control  shadow-none'"
+                            formControlName="{{k.formname}}" placeholder={{k.placeholder}} type={{k.type}}>
+                       
+                        <span style="color: #a5081a;"
+                            *ngIf="formgroupdata.controls[k.formname].errors && placementdata==true">
+                            <span *ngIf="formgroupdata.controls[k.formname].errors?.required">
+                                please fill this field
+                            </span>
+                            <span *ngIf="formgroupdata.controls[k.formname].errors?.pattern">
+                                {{k.patternerror}}
+                            </span>
+                        </span>
+                    </div>
+                </span>
+                <div class="row" *ngIf="k.tags=='combine'">
+                    <span class="{{k.cname}}" *ngFor="let c of k.fields"><br>
+                        <strong>{{c.label}}</strong>
+                        <div class="input-icons">
+                            <i class='{{c.icon}}'></i>
+                            <input id="{{c.formname}}" class="form-control  shadow-none "
+                                [ngClass]="formgroupdata.controls[c.formname].status=='INVALID' && placementdata==true ? 'form-control  shadow-none invalidstyle' : 'form-control  shadow-none'"
+                                formControlName="{{c.formname}}" placeholder={{c.placeholder}} type={{c.type}}>
+                           
+                            <span style="color: #a5081a;"
+                                *ngIf="formgroupdata.controls[c.formname].errors && placementdata==true">
+                                <span *ngIf="formgroupdata.controls[c.formname].errors?.required">
+                                    please fill this field
+                                </span>
+                                <span *ngIf="formgroupdata.controls[c.formname].errors?.pattern">
+                                    {{c.patternerror}}
+                                </span>
+                            </span>
+                        </div>
+                    </span>
+                </div>
+            </span><br>
+            <strong>Eligible batch</strong><br><br>
+            <div formArrayName="batch">
+                <div *ngFor="let eligibility of controls; index as i">
+                    <div class="row" [formGroupName]="i">
+                        <div class="col">
+                            <select style="width: 100%;" class="form-select"
+                                [ngClass]="formgroupdata.value.batch[0].batchvalue=='' && placementdata==true ? 'form-select invalidstyle' : 'form-select'"
+                                id="batchvalue" formControlName="batchvalue">
+                                <option value="" disabled selected hidden>select eligible batch year</option>
+                                <option [value]="year" *ngFor="let year of eligibledates">{{year}} Passout batch
+                                </option>
+                            </select>
+                            <span style="color: #a5081a;"
+                                *ngIf="formgroupdata.value.batch[0].batchvalue=='' && placementdata==true">
+                                Please select this field
+                            </span><br><br>
+                        </div>
+                        <div *ngIf="controls.length!=1" class="col-1 box2">
+                            <button style="background-color:#a5081a" (click)="deleteEligible(i)"
+                                class="btn btn-danger"><i class='bx bxs-message-alt-x'>Remove</i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 box1">
+                    <button (click)="addEligible()" style="background-color: #00b0ff;" class="btn btn-primary"
+                        type="button"><i class='bx bx-comment-add'>Add</i></button>
+                </div>
+            </div>
+            <br><br><br>
+            <button type="submit" class="btn btn-secondary" style="background-color: #1b1d1e;"
+                id="but">Submit</button>&nbsp;&nbsp;
+            <button routerLink="/admin/placements" class="btn btn-danger"
+                style="background-color:#a5081a">Close</button><br><br>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1rem;">
+        <span style="font-size: 1.3rem;color: #ffff;">
+            <i class="fa fa-warning"></i>
+        </span>&nbsp;
+        <strong>{{popup}}</strong>&nbsp;
+      
+    </span>
+</div>
+<ng-template #nodat>
+    <div style="display: flex;justify-content: center;align-items: center;height:90vh">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+
+        </div>
+    </div>
+</ng-template>

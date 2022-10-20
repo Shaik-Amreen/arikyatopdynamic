@@ -1,1 +1,128 @@
-<p>admin-student-result works!</p>
+<div class="table-responsive layout">
+    <h5 style="color: #1b1c1e;margin-left: 2rem;"><br><strong>UPLOAD RESULTS</strong></h5>
+
+    <br>
+    <span *ngIf="!validata ">
+        <div style="display: flex;justify-content: center;">
+            <strong *ngIf="errorMsg!=''" style="color: #a5081a;text-align: center;">⚠ {{errorMsg}}<br><br></strong>
+        </div>
+        <div style="display: flex;justify-content: center;">
+            <select class="form-control shadow-none" name='sem' [(ngModel)]='sem' (click)="errorMsg=''"
+                style="width: 51vw">
+                <option value="" [disabled]="true">Select Semester</option>
+                <option value="btechsem1">BTECH SEM I</option>
+                <option value="btechsem2"> BTECH SEM II</option>
+                <option value="btechsem3"> BTECH SEM III</option>
+                <option value="btechsem4"> BTECH SEM IV</option>
+                <option value="btechsem5"> BTECH SEM V</option>
+                <option value="btechsem6"> BTECH SEM VI</option>
+                <option value="btechsem7"> BTECH SEM VII</option>
+                <option value="btechsem8"> BTECH SEM VIII</option>
+                <option value="mbasem1"> MBA SEM I</option>
+                <option value="mbasem2"> MBA SEM II</option>
+                <option value="mbasem3"> MBA SEM III</option>
+                <option value="mbasem4"> MBA SEM IV</option>
+                <option value="mcasem1">MCA SEM I</option>
+                <option value="mcasem2">MCA SEM II</option>
+                <option value="mcasem3">MCA SEM III</option>
+                <option value="mcasem4">MCA SEM IV</option>
+            </select><br>
+        </div>
+        <div style="display: flex;justify-content: center;align-items: center;">
+            <div class="col-sm-7 text-center"
+                style="border-radius:3px;background-color: #fff;box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;padding: 3rem;">
+
+                <div (click)="excel.click()" *ngIf="mapping.length==0"
+                    style="border: 2px dashed #00B0FF;;border-radius: 7px;padding: 1rem;cursor: pointer;">
+                    <i class='bx bxs-cloud-upload bx-tada' style="font-size: 5rem;color: #00B0FF;"></i><br>
+                    <input #excel style="display: none;" type="file" accept=".xlsx" multiple="false"
+                        (change)="onfilesubmit($event)">
+                    <strong style="color:#00B0FF">Browse files </strong>
+                </div>
+                <div *ngIf="mapping.length!=0"
+                    style="border: 2px dashed #00B0FF;;border-radius: 7px;padding: 1rem;cursor: pointer;">
+                    <i class='bx bxs-file' style="font-size: 5rem;color: #00B0FF;"></i><br>
+
+                    <strong style="color:#00B0FF">Yeah ! file selected </strong>
+                </div>
+                <br><br>
+                <div class="row">
+                    <table class="table table-bordered" id="excel" style="display: none;">
+                        <tbody>
+                            <tr style="background-color: whitesmoke;">
+                                <td>College ID of the student</td>
+                                <td>semester score</td>
+                                <td>cummulative score</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="col-sm-8"><strong>Excel format</strong><br>
+                        <table class="table table-bordered" style="font-size:0.8rem">
+                            <tbody>
+                                <tr style="background-color: whitesmoke;">
+                                    <th>Roll number</th>
+                                    <th>Sgpa</th>
+                                    <th>Cgpa</th>
+                                </tr>
+                                <tr style="color: grey;">
+                                    <td>College ID of the student</td>
+                                    <td>semester score</td>
+                                    <td>cummulative score</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-4 " style="cursor: pointer;" (click)="exportexcel('excel')"><br>
+                        <strong style="color: #00B0FF;">Download</strong><br>sample template<br><i
+                            class='bx bx-chevrons-down bx-tada' style="font-size: 2rem;color: #00B0FF;"></i>
+                    </div>
+                </div>
+                <br><br>
+                <button class="btn" [disabled]="!saveMode" style="background-color: #00B0FF;color: #fff;width: 100%;"
+                    (click)="save()">Save</button>
+            </div>
+        </div>
+    </span>
+
+
+    <div style="display: flex;justify-content: center;max-height: 70vh;">
+
+        <table *ngIf="validata" class="table table-responsive table-bordered text-center "
+            style="background-color: #fff;margin: 4rem;margin-top: 0.2rem;box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
+            <tbody>
+                <tr style="background-color: #1b1c1e;color: whitesmoke;">
+                    <td>Roll number</td>
+                    <td>Sgpa</td>
+                    <td>Cgpa</td>
+
+                </tr>
+                <tr *ngFor="let row of mapping">
+                    <td>{{row.rollnumber}}</td>
+                    <td>
+                        {{row.sgpa}}
+                    </td>
+
+                    <td>{{row.cgpa}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+  
+
+</div>
+
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1rem;">
+        <strong> SUCCESSFULLY SAVED</strong>
+        <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+    </span>
+</div>
+
+<span *ngIf="validata"><br>
+    <button (click)="savefinal()" style="background-color:  #1b1c1e"
+        class="btn btn-secondary">{{savingMode}}</button>&nbsp;
+    <button (click)="mapping=[];validata=false" class="btn btn-danger">Close</button></span>

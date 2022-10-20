@@ -1,0 +1,74 @@
+select,
+input {
+    padding: 0.2rem;
+    border-radius: 3px;
+}
+
+.input-icons i {
+    position: absolute;
+    margin-left: 0.5rem;
+}
+
+.input-icons {
+    display: flex;
+    align-items: center;
+}
+
+input {
+    padding-left: 2rem;
+}
+
+span {
+    font-size: 0.9rem;
+}
+
+select {
+    margin-top: 0.2rem;
+}
+
+.btn {
+    font-size: 0.8rem;
+}
+
+table {
+    font-size: 0.8rem;
+    width: 80vw;
+}
+
+tr {
+    border-bottom: 2px solid whitesmoke;
+    cursor: pointer;
+}
+
+
+.view {
+    position: fixed;
+    left: 72%;
+    bottom: 2%;
+    right: 1%;
+    color: white;
+    padding: 15px;
+ 
+    background: #47cbff;
+    box-shadow: 0px 0px 10px 2px rgb(214, 210, 210);
+    border-radius: 8px;
+  
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    animation: fade 4s;
+    cursor: context-menu;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+
+    }
+
+    100% {
+        opacity: 1;
+
+    }
+}

@@ -1,1 +1,86 @@
-<p>quiz-topics works!</p>
+<div *ngIf="nodata else nodat">
+    <div class="row layout">
+        <div *ngIf="quiztopics.length!=0 else add"><br>
+            <div class="row">
+                <div class="col-sm">
+                    <h5 style="color: #1b1c1e;"><strong>QUIZ</strong></h5>
+                </div>
+                <div class="col-sm-4"
+                    style="background-color: #fff;border-radius: 7px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;display: flex;justify-content: center;align-items: center;">
+                    <input type="text" name="type" [(ngModel)]="type1" class="form-control shadow-none"
+                        placeholder="start typing topic name" style="border: none;background-color: #fff;" />
+                    <i class="bx bx-search" style="font-size: 1rem;font-weight: 600"></i>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn  btn-primary" [routerLink]="['/admin/quiz/add']"
+                        style="float: right;background-color:#00B0FF;">add +
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="table-responsive" style="max-height: 70vh;font-size: 0.75rem;">
+                <table class="table table-borderless text-center">
+
+                    <tbody *ngFor="let c of getquiztopics();index as i" style="background-color: white;">
+                        <tr style="color: white;background-color: #1b1c1e;" *ngIf="i==0">
+                            <th>Topic</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Total Marks</th>
+                            <th>Total Time</th>
+                        </tr>
+                        <tr (click)="quiz(c)" style="cursor:pointer;">
+                            <td>{{c.topic}}</td>
+                            <td>{{c.startson | date : 'medium'}}</td>
+                            <td>{{c.endson | date : 'medium'}}</td>
+                            <td>{{c.totalmarks}}</td>
+                            <td>{{c.totaltime}} minutes</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="getquiztopics().length==0">
+                    <div style="display: flex;justify-content: center;align-items: center;height: 60vh;width:82vw">
+                        <div style="text-align: center;">
+                            <img src="../../../../../assets/search.gif" style="max-height: 300px;width: 500px;"><br>
+                            <h5 style="color: #1b1c1e;"><strong>We could not find related quiz topics !</strong></h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <ng-template #add>
+         
+            <div style="display: flex;justify-content: center;align-items: center;height: 80vh;">
+                <div style="text-align: center;">
+                    <img src="../../../assets/search.gif" style="max-height:300px"><br>
+                    <h5 style="color: #1b1c1e;"><strong>We could not find any quiz topics !
+                            <span routerLink="/admin/quiz/add"><strong>Click
+                                    here to add . </strong></span>
+                        </strong>
+                    </h5>
+                </div>
+            </div>
+
+        </ng-template>
+
+    </div>
+</div>
+
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1.2rem;">
+        &nbsp;<strong>SUCCESSFULLY SAVED</strong>&nbsp;
+        <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+    </span>
+</div>
+
+
+<ng-template #nodat>
+    <div style="display: flex;justify-content: center;align-items: center;height: 90vh;">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+
+        </div>
+    </div>
+</ng-template>

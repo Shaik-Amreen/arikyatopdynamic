@@ -1,1 +1,113 @@
-<p>quiz-topic-details works!</p>
+<div *ngIf="nodata else nodat">
+    <div class="row"
+        style="border-radius: 7px;background-color: #fff;padding: 0.7rem;margin:0.5rem;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+        <div class="col-sm-1">
+            <strong [routerLink]="['/admin/quiz']"><br /><i class='bx bx-arrow-back'
+                    style="font-size:2rem ;color: #00B0FF;cursor: pointer;"></i></strong>
+        </div>
+        <div class="col-sm" style="margin-top: 0.7rem;"><strong style="font-size: 1.5rem;"> {{data.topic |
+                uppercase}}</strong>
+        </div>
+        <div class="col-sm-2" style="padding-top: 0.4rem;">
+            <strong> TOTAL QUESTIONS : {{data.questions.length}} </strong><br>
+            <strong>TOTAL MARKS : {{data.totalmarks}}</strong>
+        </div>
+        <div class="col-sm-2" style="padding-top: 0.4rem;">
+            <strong>ATTEMPTED STUDENTS : {{totalcount}}</strong><br>
+            <strong>TOTAL TIME : {{data.totaltime}} minutes</strong>
+        </div>
+        <div class="col-sm" style="padding-top: 0.4rem;">
+            <strong> Start time : &nbsp;{{data.startson |date:'medium'}} <br>
+                <span *ngIf="endedit">
+                    <span style="color: #a5081a;cursor: pointer;"> Edit last date</span>
+                    <br />
+                    <input type="datetime-local" [(ngModel)]="endson" />
+                    <button (click)="updatendate()">Save</button>
+                </span>
+                <span *ngIf="!endedit">
+                    End time &nbsp;&nbsp;: &nbsp;{{data.endson | date:'medium'}}<br>
+                    <span style="color: #a5081a;cursor: pointer;" (click)="endedit=true">Extend last date ? </span>
+                </span>
+            </strong>
+        </div>
+
+        <div class="col-sm-1" *ngIf="editcode">
+            <i style="font-size: 2rem;float: right;color: #00B0FF;cursor: pointer;" (click)="switchedit()"
+                class='bx bxs-pencil'></i>
+        </div>
+    </div>
+
+
+    <div class="row table-responsive" style="max-height: 80vh;font-size: 0.8rem;margin: 0rem 1rem;">
+        <div *ngFor="let each of data.questions;index as i">
+            <div
+                style="background-color: #fff;border-radius: 10px;padding: 1rem;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                &nbsp;
+                <span style="color: #00b0ff;" style="pointer-events: none;">
+                    <strong style="color: black;"> Question {{i+1}}</strong><br /><br />
+                    <div style="margin-left: 1rem;" [innerHTML]="each[0].questionis"></div>
+
+             
+                </span><br>
+
+           
+                <div style="margin-left: 1rem;">
+
+                    <label [ngClass]="each[0].correct=='option1' ? 'card correct':'card'">
+
+                        <div>
+                            &nbsp;{{each[0].option1}}
+                            <span style="float: right;" *ngIf="each[0].correct=='option1'">correct answer</span>
+                        </div>
+
+                    </label>
+
+                    <br>
+
+                    <label [ngClass]="each[0].correct=='option2' ? 'card correct':'card'" style="display: flex;">
+                        <div>
+                            &nbsp;{{each[0].option2}}
+                            <span style="float: right;" *ngIf="each[0].correct=='option2'">correct answer</span>
+                        </div>
+                    </label>
+
+                    <br />
+
+                    <label [ngClass]="each[0].correct=='option3' ? 'card correct':'card'">
+                        <div>
+                            &nbsp;{{each[0].option3}}
+                            <span style="float: right;" *ngIf="each[0].correct=='option3'">correct answer</span>
+                        </div>
+                    </label>
+
+                    <br />
+
+                    <label [ngClass]="each[0].correct=='option4' ? 'card correct':'card'">
+                        <div>
+                            &nbsp;{{each[0].option4}}
+                            <span style="float: right;" *ngIf="each[0].correct=='option4'">correct answer</span>
+                        </div>
+                    </label>
+
+                    <br /><br />
+                    <span style=" pointer-events: none;">
+                        <strong style="color: #00B0FF;">EXPLAINATION </strong> &nbsp;<br /><br />
+                       
+                        <div [innerHTML]="each[0].explanation"></div>
+                      
+                    </span><br><br>
+                </div>
+            </div>
+            <br />
+        </div>
+        <br>
+    </div>
+</div>
+
+<ng-template #nodat>
+    <div style="display: flex;justify-content: center;align-items: center;height: 90vh;">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+        </div>
+    </div>
+</ng-template>

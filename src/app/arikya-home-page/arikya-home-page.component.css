@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap');
+
+.active {
+    padding-bottom: 0.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: #1b1c1e;
+    font-weight: 700;
+    border-bottom: 3px solid #00b0ff;
+}
+
+.content {
+    background-image: url('../../assets/home.png');
+    background-repeat: no-repeat;
+}

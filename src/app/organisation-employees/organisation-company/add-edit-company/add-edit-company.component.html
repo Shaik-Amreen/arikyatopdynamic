@@ -1,1 +1,242 @@
-<p>add-edit-company works!</p>
+<br>
+<span style="margin: 1rem;"><span style="cursor:pointer" [routerLink]="['/admin/placements']"><strong>PLACEMENTS >
+        </strong></span>
+    <span style="cursor: pointer;" [routerLink]="['/admin/placements/placementsdetails']"><strong
+            style="font-size: 0.8rem;">PLACEMENT DETAILS</strong></span> >
+    <span style="font-size: 0.8rem;" *ngIf="!editMode">ADD COMPANY</span>
+    <span style="font-size: 0.8rem;" *ngIf="editMode">EDIT COMPANY</span>
+</span>
+<div class=" addform table-responsive">
+    <form [formGroup]="addcompanyform" (ngSubmit)="submitCompany()">
+
+        <div class="col-sm-12" *ngFor="let k of addcompany">
+            <strong style="font-size: 0.9rem" *ngIf="k.head=='ELIGIBILITY CRITERIA'"><br>{{k.head}}<br>
+                <hr><br>
+            </strong>
+            <span *ngIf="k.tags=='input'">
+                <span *ngIf="k.formname!='stipend' else sti">
+                    <strong>{{k.label}}</strong><br>
+                    <input class="form-control shadow-none"
+                        (click)="k.formname=='companyname' ? suggestions = true : suggestions=false"
+                        [ngClass]="addcompanyform.controls[k.formname].status=='INVALID' && companyform==true ? 'form-control  shadow-none invalidstyle' : 'form-control  shadow-none'"
+                        id="{{k.formname}}" formControlName="{{k.formname}}" placeholder={{k.placeholder}}
+                        type={{k.type}} />
+
+                    <span style="color: #a5081a;"
+                        *ngIf="addcompanyform.controls[k.formname].errors && companyform==true">
+                        <span *ngIf="addcompanyform.controls[k.formname].errors?.required">
+                            please fill this field
+                        </span>
+                        <span *ngIf="addcompanyform.controls[k.formname].errors?.pattern">
+                            {{k.patternerror}}
+                        </span>
+
+                    </span>
+                </span>
+                <ng-template #sti><br />
+                    <strong>Stipend</strong><br>
+                    <input [checked]="!stipendMode" type="checkbox" (click)="changeStipendMode()">
+                    Stipend is to be announced later
+                    <br>
+                </ng-template>
+            </span>
+            <span *ngIf="k.tags=='select'">
+                <strong>{{k.label}}</strong><br>
+                <select class="form-select"
+                    [ngClass]="addcompanyform.controls[k.formname].status=='INVALID' && companyform==true ? 'form-select invalidstyle' : 'form-select'"
+                    id="{{k.formname}}" formControlName="{{k.formname}}">
+                    <option value="" selected disabled>please select</option>
+                    <option value="{{i.value}}" *ngFor="let i of k.options">{{i.label}}</option>
+                </select>
+                <span style="color: #a5081a;"
+                    *ngIf="addcompanyform.controls[k.formname].status=='INVALID' && companyform==true">
+                    Please select {{k.label | lowercase}}
+                </span><br>
+            </span>
+            <span *ngIf="k.tags=='combine'">
+                <span class="row" *ngIf="k.subof!='stipend'">
+                    <span class="{{k.cname}}" *ngFor="let c of k.fields"><br />
+                        <span *ngIf="c.tags=='input'">
+                            <strong>{{c.label}}</strong><br>
+                            <input class="form-control shadow-none" id="{{c.formname}}" style="background-color: #fff;"
+                                [readOnly]="c.formname=='placementcyclename'"
+                                [ngClass]="addcompanyform.controls[c.formname].status=='INVALID' && companyform==true ? 'form-control  shadow-none invalidstyle' : 'form-control  shadow-none'"
+                                id="{{c.formname}}" formControlName="{{c.formname}}" placeholder={{c.placeholder}}
+                                type={{c.type}} />
+                            <div *ngIf="c.formname=='companyname' && suggestions">
+                                <span *ngFor="let d of data">
+                                    <button type="button" (click)="callInt(d)" class="btn btn-light"
+                                        *ngIf="(d.companyname.toLowerCase()).includes(addcompanyform.value.companyname.toLowerCase()) && addcompanyform.value.companyname!=''">{{d.companyname}}</button>
+                                </span>
+                            </div>
+                          
+                            <span style="color: #a5081a;"
+                                *ngIf="addcompanyform.controls[c.formname].errors && companyform==true">
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.required">
+                                    please fill this field
+                                </span>
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.pattern">
+                                    {{c.patternerror}}
+                                </span>
+                              
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.min">
+                                    <span *ngIf="addcompanyform.value.ongoingbacklogs > addcompanyform.value.totalbacklogs">It must be atleast{{addcompanyform.value.ongoingbacklogs}}</span>
+                                    {{c.patternerror}}
+                                </span>
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.max">
+                                    {{c.patternerror}}
+                                </span>
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.minlength">
+                                    {{c.label | lowercase}} must must be greater than
+                                    {{addcompanyform.controls[c.formname].errors?.minlength.requiredLength}} length
+                                </span>
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.maxlength">
+                                    {{c.label | lowercase}} must must not be with greater than
+                                    {{addcompanyform.controls[c.formname].errors?.maxlength.requiredLength}} length
+                                </span>
+
+                            </span>
+                        </span>
+                        <span *ngIf="c.tags=='select'">
+                            <strong>{{c.label}}</strong><br>
+                            <select class="form-select"
+                                [ngClass]="addcompanyform.controls[c.formname].status=='INVALID' && companyform==true ? 'form-select invalidstyle' : 'form-select'"
+                                id="{{c.formname}}" formControlName="{{c.formname}}">
+                                <option value="" selected disabled>please select </option>
+                                <option value="{{i.value}}" *ngFor="let i of c.options">{{i.label}}</option>
+                            </select>
+                            <span style="color: #a5081a;"
+                                *ngIf="addcompanyform.controls[c.formname].status=='INVALID' && companyform==true">
+                                Please select {{c.label | lowercase}}
+                            </span><br>
+                        </span>
+                    </span>
+                </span>
+                <span class="row" *ngIf="k.subof=='stipend' && stipendMode">
+                    <span class="{{k.cname}}" *ngFor="let c of k.fields"><br>
+                        <span *ngIf="c.tags=='input' ">
+                            <strong>{{c.label}}</strong><br>
+                            <input class="form-control shadow-none" id="{{c.formname}}" formControlName="{{c.formname}}"
+                                placeholder={{c.placeholder}} type={{c.type}} />
+                        
+                            <span style="color: #a5081a;"
+                                *ngIf="addcompanyform.controls[c.formname].errors && companyform==true">
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.required">
+                                    please fill this field
+                                </span>
+                            </span>
+                          
+                        </span>
+                        <span *ngIf="c.tags=='select'">
+                            <strong>{{c.label}}</strong><br>
+                            <select class="form-select" id="{{c.formname}}" formControlName="{{c.formname}}">
+                                <option value="" selected disabled>please select</option>
+                                <option value="{{i.value}}" *ngFor="let i of c.options">{{i.label}}</option>
+                            </select>
+                            <span style="color: #a5081a;"
+                                *ngIf="addcompanyform.controls[c.formname].errors && companyform==true">
+                                <span *ngIf="addcompanyform.controls[c.formname].errors?.required">
+                                    Please select {{c.label | lowercase}}
+                                </span>
+                            </span>
+                            <br>
+                        </span>
+                    </span>
+                </span>
+
+            </span>
+            <span *ngIf="k.tags=='textarea'">
+                <strong>{{k.label}}</strong><br>
+              
+                <angular-editor class="form-control shadow-none" id="{{k.formname}}" formControlName="{{k.formname}}"
+                    [config]="config2" placeholder={{k.placeholder}}>
+                </angular-editor>
+                <span style="color: #a5081a;"
+                    *ngIf="addcompanyform.controls[k.formname].status=='INVALID' && companyform==true">
+                    Please enter Job Description
+                </span><br>
+                <br>
+            </span>
+            <span *ngIf="k.formname=='hiringworkflow'"><br>
+                <strong style="font-size: 0.9rem" (click)="refresh()"><br>HIRING HIERARCHY<br>
+                    <hr>
+                </strong>
+
+                <div class="row" style="background-color: whitesmoke; margin: 2rem;padding: 1rem;">
+                    <div class=" pt-3 col-sm-4">
+                        <span *ngFor="let a of hiringworkflowdata">
+
+                            <button type="button" class="btn" style="width: 15rem;background-color: #fff;"
+                                [disabled]="addcompanyform.value.hiringworkflow.includes(a)" (click)="addlevel(a)">+
+                                {{a}}</button><br /><br /><br><br>
+                        </span>
+                    </div>
+                    <div class="text-center  col-sm" style="padding: 7rem;padding-top: 1rem;">
+                        <div *ngFor="let level of addcompanyform.value.hiringworkflow;index as i">
+                            <div>
+                                <div class="row">
+                                    <button type="button" [formGroup]="hiringflowforsub" class="btn col-sm-9"
+                                        style="background-color: #fff;color: #1b1c1e;">{{level}}
+
+
+
+                                        <input placeholder="start typing to add description . ."
+                                            class="form-control shadow-none" id="{{level}}"
+                                            formControlName="{{level}}" />
+                                    </button>
+
+                                    <button type="button" [disabled]="alreadydata.includes(level) && editMode"
+                                        (click)="removelevel(i,level)" class="btn btn-danger col-sm-3"><i
+                                            class='bx bxs-trash' style="font-size: 1.5rem;"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+
+            </span>
+            <span *ngIf="k.formname=='eligibilties'">
+                <br><strong>COURSES</strong><br>
+                <input type="checkbox" [checked]="applyAllMode" (click)="changeSelected()" />&nbsp;<label>Select
+                    B.tech
+                    courses</label>
+                <div style="margin-left: 2rem;" *ngIf="!applyAllMode">
+                    <div *ngFor="let depart of dept">
+                        <input type="checkbox" [checked]="deptstoredata.includes(depart.ff)"
+                            (click)="changeeligibilties(depart)" />&nbsp;<label> {{depart.ff}} </label><br>
+                    </div>
+                </div><br>
+                <div *ngFor="let depart of mbadept">
+                    <input [checked]="deptstoredata.includes(depart.ff)" type="checkbox"
+                        (click)="changeeligibilties(depart)" />&nbsp;<label> {{depart.ff}} </label><br>
+                </div>
+                <div *ngFor="let depart of mcadept">
+                    <input [checked]="deptstoredata.includes(depart.ff)" type="checkbox"
+                        (click)="changeeligibilties(depart)" />&nbsp;<label> {{depart.ff}} </label><br>
+                </div><br>
+            </span>
+         
+        </div>
+
+        <div class="danger text-center" id="view" *ngIf="errorMsg!=''">
+            <i style="color: #a5081a;font-size: 1rem;" class='bx bxs-error'></i>&nbsp;<strong
+                style="color: #a5081a;font-size: 1rem;">{{errorMsg}}</strong><br>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-secondary" id="but">Submit</button>&nbsp;&nbsp;
+        <button type="button" [routerLink]="['/admin/placements/placementsdetails']" style="background-color:#a5081a"
+            class="btn btn-danger" style="width: 10rem;">Close</button><br><br>
+
+    </form>
+</div>
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1rem;">
+        <span style="font-size: 1.3rem;">
+            <i class="fa fa-warning"></i>
+        </span>
+        &nbsp;INVALID INPUT DATA&nbsp;
+      
+    </span>
+</div>

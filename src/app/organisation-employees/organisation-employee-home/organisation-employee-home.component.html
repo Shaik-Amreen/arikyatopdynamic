@@ -1,1 +1,155 @@
-<p>organisation-employee-home works!</p>
+
+<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+<span class="layout" *ngIf="data[0]=='0' || studentstatus[0]=='0' else gotres">
+    <div style="display: flex;justify-content: center;align-items: center;height: 95vh;">
+        <div style="text-align: center;">
+            <img src="../../../assets/loading.gif"><br>
+
+        </div>
+    </div>
+</span>
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1rem;font-weight: bold;">
+        &nbsp;{{popup}}
+        <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+    </span>
+</div>
+<ng-template #gotres><br><br>
+    <div class="layout table-responsive row" style="margin:0rem 1rem">
+        <div class="col-sm-9">
+            <div *ngIf="placementdata.length>0 else add">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h5 style="color: #1b1c1e;"><strong>RECENT JOB PROFILES</strong></h5>
+                    </div>
+                    <div class="col-sm"><select class="form-control shadow-none" [(ngModel)]="presentcycle"
+                            (click)="gotocom()" style="float: right;width: 10rem;padding: 0.3rem;">
+                            <option value="add" value="add" disabled selected> +
+                                Add company
+                            </option>
+                            <!-- *ngIf="today(c.todate) <= today('') && today(c.docs.fromdate) >= today('')" -->
+
+                            <option *ngFor="let c of placementdata" value="{{c.placementcyclename}}">
+                                {{c.placementcyclename}}
+                            </option>
+
+                        </select></div>
+                </div><br />
+                <div class="row table-responsive" style="max-height:80vh;" *ngIf="data.length>0 else nocompany">
+
+                    <div *ngFor="let c of data" class="col-sm-5" style="margin:0.5rem ;">
+                        <div class="card row border 0" (click)="comdetails(c)"
+                            style="padding: 1rem;cursor: pointer;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                            <div class="col"><span style="float: right;"><i
+                                        class='bx bxl-flutter bx-rotate-180'></i></span>
+                            </div>
+                            <div class="col"><strong>{{c.companyprofiletitle |
+                                    uppercase}}</strong><br>{{c.companyname}}<br>{{c.placementcyclename}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <ng-template #nocompany>
+                    <div style="display: flex;justify-content: center;align-items: center;height: 80vh;">
+                        <div style="text-align: center;">
+                            <img src="../../../assets/search.gif" style="height: 300px;"><br>
+                            <h5><strong>We could not any find companies ! Please add</strong></h5>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+
+            <ng-template #add><br><br><br>
+                <div style="display: flex;justify-content: center;height: 60vh;">
+                    <div style="text-align: center;">
+                        <img src="../../../assets/search.gif" style="max-height: 300px;"><br>
+                        <h5 style="cursor: pointer;" routerLink="/admin/placements/addeditplacements"><strong>We could
+                                not find any
+                                placement cycles !
+                                <span style="cursor: pointer;">Click to
+                                    add .</span>
+                            </strong></h5>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+        <div class="col-sm-3 card shadow" *ngIf="studentstatus.total.length>0 else notstudents">
+            <div>
+                <br><br>
+                <h5 style="color: #1b1c1e;"><strong>STUDENT STATUS</strong></h5>
+                <br>
+                <div class="m-2">
+
+                    <div style="display: flex;">
+                        <div (click)="exportToExcel('total')"
+                            style="cursor: pointer;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;font-size: 0.7rem;margin-right: 15px;">
+                            <strong>TOTAL : {{studentstatus.total.length}}
+                            </strong><br><span style="font-size: 0.65rem;">click here
+                                to
+                                download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+                        </div><br />
+                        <div (click)="exportToExcel('registered')"
+                            style="cursor: pointer;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;font-size: 0.7rem;">
+                            <strong>REGISTERED : {{studentstatus.registered.length}}</strong><br><span
+                                style="font-size: 0.65rem;">click
+                                here
+                                to
+                                download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+                        </div>
+                    </div>
+                    <br />
+
+
+                    <div (click)="exportToExcel('pending')"
+                        style="cursor: pointer;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;font-size: 0.7rem;margin-right: 0.8rem;">
+                        <strong>STUDENTS NOT REGISTERED :
+                            {{studentstatus.pending.length}}</strong><br><span style="font-size: 0.65rem;">click
+                            here
+                            to
+                            download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+                    </div>
+
+                    <br><br>
+                    <strong style=" color: black;">SEND MAIL </strong>
+                    <br>
+                    <select class="form-select shadow-none" [(ngModel)]="category"
+                        style="font-size: 10px;margin-top: 0.2rem;">
+                        <option value="" disabled selected> select category to send mail</option>
+                        <option value="total">ALL</option>
+                        <option value="registered">REGISTERED</option>
+                        <option value="pending">NOT REGISTERED</option>
+                    </select>
+                    <textarea [(ngModel)]="content" class="form-control shadow-none" style="font-size: 0.8rem;"
+                        placeholder="Type content to send mail"></textarea><br />
+                    <button class="btn btn-primary" (click)="sendmail()" [disabled]="content=='' || category=='' "
+                        style="font-size: 0.8rem;width: 100%;background-color: #00b0ff;"><strong>{{buttonStatus}}</strong></button>
+                    <br><br>
+                </div>
+
+            </div>
+
+        </div>
+        <ng-template #notstudents>
+
+            <div class="col-sm-3 card shadow" style="background:'#f4f7fb';">
+                <br><br>
+                <h5 style="color: #1b1c1e;"><strong>STUDENT STATUS</strong></h5>
+                <br>
+                <div style="display: flex;justify-content: center;align-items: center;height: 50vh">
+                    <div style="text-align: center;">
+                        <img src="../../../assets/search.gif" style="width:'300px'"><br>
+                        No invitations sent .
+                        <button class="btn btn-primary" routerLink="/admin/student/upload"
+                            style="background-color: #00b0ff;font-size:0.8rem"> Click here to add students</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </ng-template>
+    </div>
+
+</ng-template>

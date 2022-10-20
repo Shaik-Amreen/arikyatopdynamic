@@ -1,0 +1,31 @@
+.view {
+    position: fixed;
+    left: 72%;
+    top: 10%;
+    right: 1%;
+    color: white;
+    padding: 12px;
+    background: #47cbff;
+    box-shadow: 0px 0px 10px 2px rgb(214, 210, 210);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    animation: fade 5s;
+    cursor: context-menu;
+}
+
+
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+
+    }
+
+    100% {
+        opacity: 1;
+
+    }
+}

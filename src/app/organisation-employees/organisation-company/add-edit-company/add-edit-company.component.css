@@ -1,0 +1,79 @@
+.addform {
+    margin: 2rem;
+    padding: 4rem;
+    padding-top: 2rem;
+    color: #1b1c1e;
+    font-size: 0.8rem;
+    background-color: #fff;
+    height: 85vh;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  }
+  
+  input,
+  select {
+    font-size: 0.8rem;
+  }
+  
+  .under {
+    margin-left: 2rem;
+  }
+  
+  button,
+  input {
+    font-size: 0.8rem;
+  }
+  
+  #but {
+    background-color: #1b1c1e !important;
+    width: 10rem;
+  }
+  
+  button {
+    font-weight: 600;
+  }
+  
+  .imag {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    align-items: center;
+    justify-items: center;
+    margin-left: 40%;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 2px rgb(122, 114, 114);
+  }
+  
+  .invalidstyle {
+    border-color: rgb(235, 83, 83);
+  }
+  
+  
+  .view {
+    position: fixed;
+    left: 72%;
+    top: 10%;
+    right: 1%;
+    color: white;
+    padding: 15px;
+    background: #47cbff;
+    box-shadow: 0px 0px 10px 2px rgb(214, 210, 210);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    animation: fade 4s;
+    cursor: context-menu;
+  }
+  
+  @keyframes fade {
+    0% {
+      opacity: 0;
+  
+    }
+  
+    100% {
+      opacity: 1;
+  
+    }
+  }

@@ -1,1 +1,120 @@
-<p>admin-detain-student works!</p>
+
+
+    <h5 style="color: #a5081a;margin-left: 2rem;"><br><strong>DEMOTE STUDENTS</strong></h5>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm">
+            <div class="card p-4 " *ngIf="demote==1" style="color: grey;">
+                <span> Are you sure to demote <strong> {{course.toUpperCase()}} {{currentyear}} </strong>Year Students
+                </span><br>
+                <span>
+                    <button class="spe" style="background: #a5081a;color: white;width:20%"
+                        (click)="demotestudents()">YES</button>&nbsp;
+                    <button class="spe" style="background: #1b1c1e;color: white;width:20%"
+                        (click)="demote=0">NO</button></span>
+            </div><br>
+            <div *ngIf="demote==2" style="color: #a5081a;"><strong>SUCCESSFULLY DEMOTED</strong></div><br>
+            <button class="bt" (click)="demote=1;course='btech';currentyear=2;present=1">Demote BTECH Year II
+                students</button><br><br>
+            <button class="bt" (click)="demote=1;course='btech';currentyear=3;present=2">Demote BTECH Year III
+                students</button><br><br>
+            <button class="bt" (click)="demote=1;course='btech';currentyear=4;present=3">Demote BTECH Year IV
+                students</button><br><br>
+            <button class="bt" (click)="demote=1;course='mba';currentyear=2;present=1">Demote MBA Year II
+                students</button><br><br>
+            <button class="bt" (click)="demote=1;course='mba';currentyear=2;present=1">Demote MCA Year II students</button>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm">
+            <span *ngIf="validata" style="display: flex;"><br>
+                <button (click)="savefinal()" style="background-color:  #a5081a;color: white;"
+                    class="btn btn-danger">{{savingMode}}</button>&nbsp;
+                <button (click)="mapping=[];validata=false" class="btn btn-secondary"
+                    style="background-color: #1b1c1e;color: white;">Close</button></span>
+            <div class="table-responsive layout">
+               
+                <div>
+                    <span *ngIf="!validata ">
+                        <div style="display: flex;justify-content: center;">
+                            <strong *ngIf="errorMsg!=''" style="color: #a5081a;text-align: center;">⚠
+                                {{errorMsg}}<br><br></strong>
+                        </div>
+                        <div style="display: flex;justify-content: center;align-items: center;">
+                            <div class="col-sm-5 text-center"
+                                style="border-radius:3px;background-color: #fff;box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;padding: 3rem;width: 100%;">
+    
+                                <div (click)="excel.click()" *ngIf="mapping.length==0"
+                                    style="border: 2px dashed #a5081a;;border-radius: 7px;padding: 1rem;cursor: pointer;">
+                                    <i class='bx bxs-cloud-upload bx-tada' style="font-size: 5rem;color: #a5081a;"></i><br>
+                                    <input #excel style="display: none;" type="file" accept=".xlsx" multiple="false"
+                                        (change)="onfilesubmit($event)">
+                                    <strong style="color:#a5081a">Browse files </strong>
+                                </div>
+                                <div *ngIf="mapping.length!=0"
+                                    style="border: 2px dashed #a5081a;;border-radius: 7px;padding: 1rem;cursor: pointer;">
+                                    <i class='bx bxs-file' style="font-size: 5rem;color: #a5081a;"></i><br>
+    
+                                    <strong style="color:#a5081a">Yeah ! file selected </strong>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-sm-8"><strong>Excel format</strong><br>
+                                        <table class="table table-bordered" id="excel" style="font-size:0.8rem">
+                                            <tbody>
+                                                <tr style="background-color: whitesmoke;">
+                                                    <th>Roll number</th>
+    
+                                                </tr>
+                                                <tr>
+                                                    <td style="color: grey;">College ID of the student</td>
+    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-sm-4 " style="cursor: pointer;" (click)="exportexcel()"><br>
+                                        <strong style="color: #a5081a;">Download</strong><br>sample template<br><i
+                                            class='bx bx-chevrons-down bx-tada' style="font-size: 2rem;color: #a5081a;"></i>
+                                    </div>
+                                </div>
+    
+                                <button class="btn" [disabled]="!saveMode"
+                                    style="background-color: #a5081a;color: #fff;width: 100%;"
+                                    (click)="save()">Save</button>
+                            </div>
+                        </div>
+                    </span>
+    
+    
+                    <div style="display: flex;justify-content: center;max-height: 70vh;">
+    
+                        <table *ngIf="validata" class="table table-responsive table-bordered text-center "
+                            style="background-color: #fff;margin: 4rem;margin-top: 0.2rem;box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
+                            <tbody>
+                                <tr style="background-color: #1b1c1e;color: whitesmoke;">
+                                    <td>Roll number</td>
+    
+    
+                                </tr>
+                                <tr *ngFor="let row of mapping">
+                                    <td>{{row.rollnumber}}</td>
+    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+    
+                </div><br><br>
+    
+            </div>
+    
+    
+        </div>
+    </div>
+    <div *ngIf="display" [ngClass]="{'view':display}">
+        <span style="font-size: 1rem;">
+            <strong> SUCCESSFULLY SAVED</strong>
+            <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+        </span>
+    </div>
+    

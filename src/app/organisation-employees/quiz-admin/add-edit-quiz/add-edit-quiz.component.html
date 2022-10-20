@@ -1,1 +1,157 @@
-<p>add-edit-quiz works!</p>
+<!-- <button (click)='sendmail()'>send mail</button> -->
+<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+<div class="layout table-responsive" style="max-height: 90vh;">
+    <div class="content"><br>
+        <div style="display: flex;">
+            <strong [routerLink]="['/admin/quiz']" (click)="remove()"><i class='bx bx-arrow-back'
+                    style="font-size:1.5rem ;color: #00B0FF;cursor: pointer;"></i></strong>
+            <h5 style="color: #1b1c1e;margin-left: 1.5rem;"><strong>ADD QUIZ </strong></h5>
+        </div><br>
+        <form [formGroup]="final" (ngSubmit)="onSubmit()" style="margin-left: 3.2rem;">
+            <div class="row" style="width: 90%">
+                <div class="col-sm"><label>Topic</label><br><input class="form-control shadow-none" id="topic"
+                        formControlName="topic" placeholder="Enter topic of the quiz">
+                    <span style="color: #a5081a;size: 0.5rem;"
+                        *ngIf="final.controls.topic.status=='INVALID' && inputvalue==true">
+                        * Please enter topic
+                    </span>
+                </div>
+
+                <div class="col-sm"><label>Start time</label><br><input class="form-control shadow-none"
+                        type="datetime-local" id="startson" formControlName="startson">
+                    <span style="color: #a5081a;" *ngIf=" inputvalue==true">
+                        <span *ngIf="final.controls.startson.status=='INVALID' else nostart"> *Please enter start
+                            time</span>
+                        <ng-template #nostart>
+                            <span *ngIf="datekill > final.value.startson ">please enter valid date</span>
+                        </ng-template>
+                    </span>
+                </div>
+                <div class="col-sm"><label>End time</label><br><input class="form-control shadow-none"
+                        type="datetime-local" min="final.value.startson" id="endson" formControlName="endson">
+                    <span style="color: #a5081a;" *ngIf="  inputvalue==true">
+                        <span *ngIf="final.controls.endson.status=='INVALID' else noend">*Please enter end time</span>
+                        <ng-template #noend>
+                            <span *ngIf="final.value.endson <= final.value.startson ">please enter valid date</span>
+                            <span style="color: #a5081a;"
+                                *ngIf="final.value.endson > final.value.startson  &&  timerror">{{timerror}}</span>
+                        </ng-template>
+                    </span>
+                </div>
+                <div class="col-sm"><label>Duration in min</label><br><input class="form-control shadow-none"
+                        type="number" min="0" (click)="timerror=''" id="totaltime" formControlName="totaltime"
+                        placeholder="Enter time in minutes">
+                    <span style="color: #a5081a;"
+                        *ngIf="final.controls.totaltime.status=='INVALID' && inputvalue==true">
+                        *Please enter valid test duration
+                    </span>
+                </div>
+            </div>
+            <div>
+                <div style="width: 70vw;margin-left: 2vw;margin-bottom: 2vw;" formArrayName="questions">
+                    <div class="table" *ngFor="let q of controls; index as i">
+                        <div [formGroupName]="i"><br>
+                            <div style="display: flex;text-align: center;">
+                                <span style="display: flex;">{{i+1}}.</span>
+
+                                <angular-editor id="questionis" formControlName="questionis" [config]="config2"
+                                    placeholder="ENTER QUESTION">
+                                </angular-editor><br>
+                            </div>
+                            <span style="color: #a5081a;size: 0.5rem;"
+                                *ngIf="final.value.questions[i].questionis=='' && inputvalue==true">
+                                * Please type question
+                            </span>
+
+                            <br>
+                            <div class="col" style="margin-left: 1vw;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="radio" id="radiobutton" value="option1" id="correct"
+                                        formControlName="correct"> &nbsp;&nbsp;
+                                    <input type="text" id="option1" formControlName="option1"
+                                        class="form-control shadow-none"
+                                        placeholder="Enter  first option and choose if correct" /><br>
+                                    
+                                    <br>
+                                </div>
+                                <span style="color: #a5081a;size: 0.5rem;padding-left: 2vw;"
+                                    *ngIf="final.value.questions[i].option1=='' && inputvalue==true">
+                                    please fill this field
+                                </span>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="radio" id="radiobutton" value="option2" id="correct"
+                                        formControlName="correct"> &nbsp;&nbsp;
+                                    <input type="text" id="option2" formControlName="option2"
+                                        class="form-control shadow-none"
+                                        placeholder="Enter  second option and choose if correct" /><br>
+                                </div>
+                                <span style="color: #a5081a;size: 0.5rem;padding-left: 2vw;"
+                                    *ngIf="final.value.questions[i].option2=='' && inputvalue==true">
+                                    please fill this field
+                                </span>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="radio" id="radiobutton" value="option3" id="correct"
+                                        formControlName="correct"> &nbsp;&nbsp;
+                                    <input type="text" id='option3' formControlName="option3"
+                                        class="form-control shadow-none"
+                                        placeholder="Enter  third option and choose if correct" />
+                                </div>
+                                <span style="color: #a5081a;size: 0.5rem;padding-left: 2vw;"
+                                    *ngIf="final.value.questions[i].option3=='' && inputvalue==true">
+                                    please fill this field
+                                </span>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="radio" id="radiobutton" value="option4" id="correct"
+                                        formControlName="correct"> &nbsp;&nbsp;
+                                    <input type="text" id="option4" formControlName="option4"
+                                        class="form-control shadow-none"
+                                        placeholder="Enter  fourth option and choose if correct" />
+                                </div>
+                                <span style="color: #a5081a;size: 0.5rem;padding-left: 2vw;"
+                                    *ngIf="final.value.questions[i].option4=='' && inputvalue==true">
+                                    please fill this field<br />
+                                </span>
+                                <span style="color: #a5081a;size: 0.5rem;"
+                                    *ngIf="final.value.questions[i].correct=='' && inputvalue==true">
+                                    *please mark correct option<br />
+                                </span>
+                               
+                                <label>EXPLANATION</label>
+                                <angular-editor style="display: flex;text-align: center;" id="explanation"
+                                    formControlName="explanation" [config]="config2"
+                                    placeholder="ENTER ANSWER EXPLANATION"></angular-editor><br>
+                                <span style="color: #a5081a;size: 0.5rem;"
+                                    *ngIf="final.value.questions[i].explanation=='' && inputvalue==true">
+                                    * Please give explanation
+                                </span>
+                            </div>
+                            <button *ngIf="controls.length!=1" style="float:right" class="btn btn-danger box2"
+                                (click)="deletequestion(i)"><i class='bx bxs-message-alt-x'>Remove</i></button>
+                            <br><br>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary box1" style="float:right" (click)="addquestion()" type="button"><i
+                            class='bx bx-comment-add'>Add</i></button>
+                    <br><br>
+                    <button type="submit" class="btn btn-secondary" id="but">Submit</button>&nbsp;&nbsp;
+                    <button [routerLink]="['/admin/quiz']" style="background-color:#a5081a" class="btn btn-danger"
+                        style="width: 10rem;" (click)="close()">Close</button><br><br>
+                </div><br><br>
+             
+                <br><br><br>
+            </div>
+        </form>
+
+        <div *ngIf="display" [ngClass]="{'view':display}">
+            <span style="font-size: 1rem;">
+                <span style="font-size: 1.3rem;color: #ffff;">
+                    <i class="fa fa-warning"></i>
+                </span>
+                &nbsp;{{popup}}
+          
+            </span>
+        </div>
+
+    </div>
+</div>
+

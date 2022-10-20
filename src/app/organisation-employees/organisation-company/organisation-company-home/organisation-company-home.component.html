@@ -1,1 +1,73 @@
-<p>organisation-company-home works!</p>
+<div class="table-responsive layout">
+
+
+    <span *ngIf="data[0]==0 else gotres">
+        <div style="display: flex;justify-content: center;align-items: center;height: 95vh;">
+            <div style="text-align: center;">
+                <img src="../../../assets/loading.gif"><br>
+
+            </div>
+        </div>
+    </span>
+    <ng-template #gotres>
+        <div *ngIf="placementdata.length>0  else nocycles">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h5 style="color: #1b1c1e;"><br><br><strong>COMPANIES</strong></h5>
+                </div>
+                <div class="col-sm"><br><br><select class="shadow-none form-control shadow-none"
+                        [(ngModel)]="presentcycle" (click)="gotocom()" style="float: right;width: 10rem;">
+                        <option value="add" value="add" disabled selected> + Add
+                            company
+                        </option>
+                        <option *ngFor="let c of placementdata" value="{{c.placementcyclename}}">
+                            {{c.placementcyclename}}</option>
+                    </select></div>
+            </div><br>
+            <table class="text-center table table-bordered " *ngIf="data.length>0 else nocompanies">
+                <tbody>
+                    <tr
+                        style="box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;background-color:whitesmoke">
+                        <th>Placement cycle name</th>
+                        <th>Company</th>
+                        <th>Company profile</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                    <tr (click)="comdetails(c)" *ngFor="let c of data" style="background-color: #fff;cursor: pointer;">
+                        <td>{{c.placementcyclename}}</td>
+                        <td>{{c.companyname}}</td>
+                        <td>{{c.companyprofiletitle}}</td>
+                        <td><strong *ngIf="c.status=='opened'" style="color: #00b0ff;">In progress</strong>
+                            <strong *ngIf="c.status=='closed'" style="color: crimson;">Closed</strong>
+                            <strong *ngIf="c.status=='submitted'" style="color: green;">Submitted</strong>
+                            <strong *ngIf="c.status=='not updated'" style="color: goldenrod;">Not updated</strong>
+                        </td>
+                        <td>{{c.created}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-template #nocompanies>
+                <div style="display: flex;justify-content: center;align-items: center;height: 66vh;">
+                    <div style="text-align: center;">
+                        <img src="../../../assets/search.gif" style="max-height:300px"><br>
+                        <h5><strong>We could not find any companies in this placement cycle ! Please add .</strong></h5>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+        <ng-template #nocycles>
+            <div style="display: flex;justify-content: center;align-items: center;height: 80vh;">
+                <div style="text-align: center;">
+                    <img src="../../../assets/search.gif" style="max-height:300px"><br>
+                    <h5 style="color: #1b1c1e;"><strong>We could not find any placement cycles ! <span
+                                style="cursor: pointer;" routerLink="/admin/placements/addeditplacements"><strong>Click
+                                    here to add
+                                    .</strong></span></strong></h5>
+                </div>
+            </div>
+
+        </ng-template>
+
+    </ng-template>
+</div>

@@ -1,1 +1,166 @@
-<p>placement-details works!</p>
+<div style="padding: 1rem;font-size: 0.8rem;padding-bottom: 0.2rem;"><span style="cursor:pointer"
+    [routerLink]="['/admin/placements']">
+    <strong style="font-size: 0.8rem;">PLACEMENTS ></strong>
+  </span> PLACEMENT DETAILS</div>
+<div class="row"
+  style="background-color: #1b1c1e;color: #fff;margin: 1rem;margin-top: 0.1rem;padding: 0.2rem;border-radius: 3px;font-size: 0.8rem;">
+  <div class="col-sm" style="margin-left: 2rem;">
+    STATUS&nbsp; <select [(ngModel)]="app" name="app" (change)="change()">
+      <option value="all">All applications</option>
+      <option value="opened">opened applications</option>
+      <option value="closed">closed applications</option>
+    </select>
+  </div>
+  <div class="col-sm">
+    <div class="input-icons">
+      <input type="text" [(ngModel)]="type" name="type" placeholder="search company">
+      <i class='bx bx-search' style="color: #1b1c1e;font-size: 1rem;background-color: #fff;"></i>
+    </div>
+  </div>
+  <div class="col-sm" *ngIf="addcom=='yes'"><span id="hoverbut" class="btn shadow-none"
+      routerLink="/admin/placements/addeditcompany" style="color: #fff;">ADD
+      COMPANY
+      <i class='bx bx-building'></i></span>
+  </div>
+  <div class="col-sm">
+    <span id="hoverbut" class="btn shadow-none" style="color: #fff;" (click)="setstatus()">EDIT
+      PLACEMENTS </span>
+  </div>
+</div>
+<div *ngIf="nodata else nodat">
+  <div class="row">
+    <div class="col-sm table-responsive" style="height: 80vh;">
+      <table class="table table-responsive table-bordered text-center"
+        style="margin-left: 50px;width: 94%;max-height: 70vh;">
+        <tbody *ngFor="let c of tempdatafunc() ; index as i" (click)="comdetails(c)" style="background-color: #fff;">
+          <tr *ngIf="i==0"
+            style="box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;background-color:whitesmoke">
+            <th>Placement cycle name</th>
+            <th>Company name</th>
+            <th>Company profile</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+          <tr>
+            <td>{{place}}</td>
+            <td>{{c.companyname}}</td>
+            <td>{{c.companyprofiletitle}}</td>
+            <td><strong *ngIf="c.status=='opened'" style="color: #00b0ff;">In progress</strong>
+              <strong *ngIf="c.status=='closed'" style="color: crimson;">Closed</strong>
+              <strong *ngIf="c.status=='submitted'" style="color: green;">Submitted</strong>
+              <strong *ngIf="c.status=='not updated'" style="color: goldenrod;">Not updated</strong>
+
+            </td>
+            <td>{{c.created}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div *ngIf="tempdatafunc().length==0">
+        <div style="display: flex;justify-content: center;align-items: center;height:75vh;">
+          <div style="text-align: center;">
+            <img src="../../../assets/search.gif" style="max-height: 400px;"><br>
+            <h5><strong>No companies yet in this placement cycle ! Please add .</strong></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow col-sm-3 table-responsive"
+      style="margin-right: 45px;margin-left: 15px;padding: 30px;padding-bottom:10px ;height: 80vh;">
+      <h6><strong style="color: black;">{{place | uppercase}}<br>
+          <span style="font-size: 0.7rem;color: grey;">{{placementdetails.fromdate | date}} - {{placementdetails.todate
+            |
+            date}}</span></strong>
+      </h6><br>
+      <strong style="font-size: 0.8rem;color: black;">Eligible batches</strong>
+      <span style="font-size: 0.7rem;" *ngFor="let c of placementdetails.batch">
+        <li>{{c[0].batchvalue}} Passout batch</li>
+      </span>
+      <br />
+
+      <div style="display: flex;">
+        <div style="cursor: pointer;font-size: 0.7rem;padding-right: 7px; border-right: 2px solid lightgray;"
+          (click)="exportexcel(studenteligibleplacementstatus.eligible)">
+          <strong>ELIGIBLE : {{studenteligibleplacementstatus.eligible.length}}
+          </strong><br><span style="font-size: 0.65rem;">click here
+            to
+            download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+        </div><br />
+        <div style="cursor: pointer;font-size: 0.7rem;padding-left: 7px;"
+          (click)="exportexcel(studenteligibleplacementstatus.addedstudents)">
+          <strong>ADDED STUDENTS : {{studenteligibleplacementstatus.addedstudents.length}}</strong><br><span
+            style="font-size: 0.65rem;">click
+            here
+            to
+            download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+        </div>
+      </div>
+      <hr>
+      <div style="display: flex;">
+        <div (click)="exportexcel(studenteligibleplacementstatus.interested)"
+          style="cursor: pointer;font-size: 0.7rem;padding-right: 7px; border-right: 2px solid lightgray;">
+          <strong>INTERESTED : {{studenteligibleplacementstatus.interested.length}}
+          </strong><br><span style="font-size: 0.65rem;">click here
+            to
+            download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+        </div>
+        <div (click)="exportexcel(studenteligibleplacementstatus.notinterested)"
+          style="cursor: pointer;font-size: 0.7rem;padding-left: 7px;">
+          <strong>NOT INTERESTED : {{studenteligibleplacementstatus.notinterested.length}}</strong> <br><span
+            style="font-size: 0.65rem;">click
+            here tos
+            download &nbsp;&nbsp;<i class='bx bxs-downvote'></i></span>
+        </div>
+      </div><br />
+
+      <div class="text-center" style="font-size: 0.7rem">ELIGIBLE STUDENTS NOT ADDED IN <br /><strong>{{place |
+          uppercase}} : {{studenteligibleplacementstatus.notaddedstudents.length}}
+        </strong>
+      </div>
+
+      <button class="btn btn-dark shadow-none" style="font-weight: 200;"
+        (click)="addstudentstoplacementcycle()"><strong>{{addplacestatus}}</strong></button><br />
+
+      <strong style=" color: black;">SEND MAIL </strong>
+      <select class="form-select shadow-none" [(ngModel)]="category" style="font-size: 10px;">
+        <option value="" disabled selected> select category to send mail</option>
+        <option value="eligible">ELIGIBLE</option>
+        <option value="addedstudents">ADDED</option>
+        <option value="notaddedstudents">NOT ADDED</option>
+        <option value="interested">INTERESTED</option>
+        <option value="notinterested">NOT INTERESTED</option>
+      </select>
+      <textarea [(ngModel)]="content" class="form-control shadow-none" style="font-size: 0.8rem;"
+        placeholder="Type content to send mail"></textarea>
+      <button class="btn btn-primary" (click)="sendmail()" style="margin-top: 3px;"
+        [disabled]="content=='' || category==''"><strong>{{buttonStatus}}</strong></button>
+
+
+      <br />
+      <button class="btn btn-dark" (click)="verifyallstudents()"
+        style="background-color: #1b1c1e;"><strong>{{verifyButtonStatus}}</strong></button>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #nodat>
+  <div style="display: flex;justify-content: center;align-items: center;height: 80vh;">
+    <div style="text-align: center;">
+      <img src="../../../assets/loading.gif"><br>
+      <h5><strong>Time to relax !!!
+        </strong></h5>
+    </div>
+  </div>
+</ng-template>
+
+<div *ngIf="display" [ngClass]="{'view':display}">
+  <span style="font-size: 1.2rem;">
+    <!-- <span style="font-size: 1.3rem;">
+          <i class="fa fa-warning"></i>
+      </span> -->
+    &nbsp;<strong>SUCCESSFULLY SAVED</strong>&nbsp;
+    <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+  </span>
+</div>
+

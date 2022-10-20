@@ -1,1 +1,243 @@
-<p>organisation-employee-navbar works!</p>
+
+<body>
+    <div [ngClass]="navMode ? 'sidebar ' : 'sidebar close'">
+        <div class="logo-details">
+            <span class="logo_name">ARIKYA</span>
+            <i class='bx bx-menu-alt-right' id="btn" (click)="changeNav()"></i>
+        </div>
+        <ul class="nav-links">
+            <li *ngFor="let i of content">
+                <a *ngIf="!i.submenu else sub" id="one" [routerLink]="i.rlink" routerLinkActive="clicked"><span
+                        id="cick"></span>
+                    <i [class]='i.icon'></i>
+                    <span class="link_name">{{i.label}}</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <span style="font-size: 0.8rem;color: #fff;font-weight: 500;padding: 0.2rem;" [routerLink]="i.rlink"
+                        class="link_name">{{i.label}}</span>
+                </ul>
+                <ng-template #sub>
+
+                    <div class="iocn-link" routerLinkActive="clicked">
+                        <a [routerLink]="i.rlink" routerLinkActive="clicked">
+                           
+
+                            <i [class]='i.icon'></i>
+                            <span class="link_name">{{i.label}}</span>
+                        </a>
+
+                        <i class='bx bxs-chevron-down arrow' (click)="expandArrow($event)"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a style="color:#383737" class="link_name" [routerLink]="i.rlink">{{i.label}}</a></li>
+                        <li><a *ngFor="let c of i.submenu" (click)="perform()" [routerLink]="c.rlink"
+                                routerLinkActive="clickedsubmenu">
+                                <span>{{c.label}}</span></a>
+                        </li>
+                    </ul>
+
+
+                </ng-template>
+            </li>
+
+            <br><br><br>
+        </ul>
+    </div>
+    <div class="home_content" style="margin: 0px;">
+        <nav class="navbar navstyle ">
+            <span style="text-align: left;font-size: 1rem;font-weight: 500;">{{collegeName}}</span>
+            <div style="font-size: 0.8rem;">
+                <div *ngIf="role=='admin'" ngbDropdown class="d-inline-block">
+                    <button style="color: #00B0FF;margin-right: 1rem;" class="btn shadow-none" id="dropdownBasic1"
+                        ngbDropdownToggle><i class='bx bx-bell'></i>
+                    </button><br>
+                    <div class="table-responsive" ngbDropdownMenu aria-labelledby="dropdownBasic1"
+                        style="width: 25vw;max-height: 60vh;right: 0.005vw;background-color: #f4f7fb;border: none;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                        <br>
+                        <h5 style="position: fixed;top:7%;right:9%;cursor: pointer;" (click)="allbell()"><i
+                                class='bx bx-refresh bx-tada bx-flip-horizontal'></i></h5>
+                        <div *ngIf="adminotifications.length!=0 else noadmin">
+                            <div *ngFor="let c of adminotifications"
+                                style="color: grey;font-size:0.8rem;font-weight: 500;margin: 12px 16px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;padding: 0.5rem;border-radius: 7px;background-color: #fff;">
+                                {{c.firstname}} {{c.reason}} on {{c.date | date:'medium'}} .
+                                <br>
+
+                            </div>
+                        </div>
+
+                        <ng-template #noadmin>
+                            <div style="padding: 2rem;">
+                                <span style="color: #1b1c1e;">No modifications in placementcycles yet !</span>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+
+                <div *ngIf="role=='admin'" ngbDropdown class="d-inline-block">
+                    <button style="color: #00B0FF;margin-right: 1rem;" class="btn shadow-none" id="dropdownBasic1"
+                        ngbDropdownToggle><i class='bx bx-envelope'></i>
+                    </button><br>
+                    <div class="table-responsive" ngbDropdownMenu aria-labelledby="dropdownBasic1"
+                        style="width: 25vw;max-height: 60vh;right: 0.005vw;background-color: #f4f7fb;border: none;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                        <br>
+                        <h5 style="position: fixed;top:7%;right:7%;cursor: pointer;" (click)="allenvelop()"><i
+                                class='bx bx-refresh bx-tada bx-flip-horizontal'></i></h5><br />
+                        <span *ngIf=" (all.length!=0) else nostu">
+                            <span *ngFor="let c of all" style="align-items: left;font-size: 0.8rem;">
+                                <div
+                                    style="color: grey;font-size:0.8rem;font-weight: 500;margin: 12px 16px;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;padding: 0.5rem;border-radius: 7px;background-color: #fff;">
+                                    <br /> {{c.fullname}} <strong>{{c.rollnumber}}</strong> changed
+                                    <strong>{{c.field}}</strong> from <strong>{{c.prev}}</strong> to
+                                    <strong>{{c.current}}</strong>
+                                    on {{ c.date
+                                    |
+                                    date:'medium'}} <br>
+                                    <span>
+                                        <span *ngIf="c.verified=='notyet'"><br /></span>
+                                        <button class="btn btn-primary shadow-none" *ngIf="c.verified=='notyet'"
+                                            style="font-size: 0.8rem;padding:0.4rem"
+                                            (click)="accept(c,'accepted')">Accept</button>&nbsp;&nbsp;
+                                        <button class="btn btn-danger" *ngIf="c.verified=='notyet'"
+                                            style="font-size: 0.8rem;padding:0.4rem"
+                                            (click)="accept(c,'rejected')">Reject</button>
+
+                                        <button class="btn btn-primary shadow-none"
+                                            style="font-size: 0.8rem;padding:0.4rem;width: 100%;"
+                                            *ngIf="c.verified=='accepted'">Accepted by
+                                            {{c.verifiedby}}</button>
+                                        <button class="btn btn-danger"
+                                            style="font-size: 0.8rem;padding:0.4rem;margin-bottom: 1rem;width:'100%'"
+                                            *ngIf="c.verified=='rejected'">Rejected by
+                                            {{c.verifiedby}}</button>
+
+                                    </span><br /><br />
+                                </div>
+                            </span>
+                        </span>
+                        <ng-template #nostu style="color: grey;font-size:14px;font-weight: 500;margin-right: 1vw;">
+                            <div style="padding: 2rem;">
+                                <span style="color: #1b1c1e;">No modifications in student's profiles yet !</span>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+
+                <div *ngIf="role=='admin'" ngbDropdown class="d-inline-block">
+                    <button style="color: #00B0FF;margin-right: 1rem;" class="btn shadow-none" id="dropdownBasic1"
+                        ngbDropdownToggle><i class='bx bxs-widget'></i>
+                    </button><br>
+                    <div class="table-responsive" ngbDropdownMenu aria-labelledby="dropdownBasic1" style=" width: 25vw;max-height: 60vh;right:
+                    0.005vw;background-color: #f4f7fb;border: none;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px
+                    0px;"><br>
+                        <h5 style="position: fixed;top:7%;right:5%;cursor: pointer;" (click)="alloffers()"><i
+                                class='bx bx-refresh bx-tada bx-flip-horizontal'></i></h5>
+                        <div
+                            style="color: grey;font-size:14px;font-weight: 500;margin-right: 1vw;padding: 2rem;padding-top: 0rem;">
+                            <span *ngIf="comnotify.length!=0 ||  placenotify.length!=0 else noooffers">
+                                <span *ngFor="let c of comnotify">
+                                    <span *ngIf="(c.placed=='' || c.placed=='not yet' || c.placed=='-')">
+                                        <div style="justify-content: center;">
+                                            {{c.rollnumber}} uploaded offerletter of {{c.companyname}} in
+                                            {{c.placementcyclename}}<br>
+                                            Offer {{c.offerstatus}}
+                                            <br>
+                                        </div>
+                                        <span style="cursor: pointer;" (click)="download(c)"><i
+                                                class='bx bxs-download bx-flip-horizontal bx-tada'></i>click here to
+                                            download</span>
+
+                                        <div *ngIf="c.offerstatus=='accepted'">
+                                            <button class="btn"
+                                                style="box-shadow: 0px 0px 10px 2px rgb(223, 217, 217);background:#00B0FF;color: white;"
+                                                (click)="acceptnot(c,'yes')">ACCEPT</button>&nbsp;&nbsp;
+                                            <button class="btn btn-danger" (click)="acceptnot(c,'no')">REJECT</button>
+                                        </div>
+                                        <div *ngIf="c.offerstatus=='rejected'">
+                                            <button class="btn btn-primary shadow-none"
+                                                style="box-shadow: 0px 0px 10px 2px rgb(223, 217, 217);"
+                                                (click)="acceptnot(c,'no')">ACCEPT</button>&nbsp;&nbsp;
+                                            <button class="btn btn-danger" (click)="acceptnot(c,'yes')">REJECT</button>
+                                        </div>
+                                        <br>
+                                        <button *ngIf="c.offerstatus=='accepted' || c.offerstatus=='rejected'"
+                                            style="margin-top: 10px;" class="btn btn-warning"
+                                            style="box-shadow: 0px 0px 10px 2px rgb(223, 217, 217);"
+                                            (click)="acceptnot(c,'onhold')">ASK TO
+                                            RESUBMIT</button>
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+
+                        <div *ngFor="let c of placenotify"
+                            style="color: grey;font-size:14px;font-weight: 500;padding: 12px 16px;">
+                            you placed:{{c.placed}} {{c.rollnumber}} offer of {{c.companyname}} in
+                            {{c.placementcyclename}}
+                            <br><br>
+                            <hr>
+                        </div>
+
+
+                        <ng-template #noooffers>
+
+                            <div style="padding: 2rem;">
+                                <span style="color: #1b1c1e;">No offer letters to approve yet !</span>
+                            </div>
+
+                        </ng-template>
+
+                    </div>
+                </div>
+
+                <div ngbDropdown class="d-inline-block">
+                    <button style="color: #fff;margin-right: 1rem;" class="btn shadow-none" id="dropdownBasic1"
+                        ngbDropdownToggle><span class="dot1"
+                            style="color: white;"><strong>{{firstname.charAt(0)}}</strong></span>
+                    </button><br>
+                    <div class="table-responsive" ngbDropdownMenu aria-labelledby="dropdownBasic1"
+                        style="width: 15vw;max-height: 60vh;right: 0.005vw;text-align: center;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;border: none;">
+                        <span
+                            style="display: flex;justify-content: center;align-items: center;margin: 2rem;margin-bottom: 0rem;">
+                            <span>
+                                <span class="dot">
+                                    <h1 style="color:white ;">{{firstname.charAt(0)}}</h1>
+                                </span><br>
+
+                            </span>
+                        </span>
+                        <span>{{fullname}}</span><br><span style="font-size: 0.7rem;">{{mail}}</span><br><br>
+                        <div style="padding: 1rem;padding-top: 0rem;background-color: #f4f7fb;">
+                            <br>
+                            <span
+                                style="display: flex;justify-content: center;align-items: center;justify-content: center;">
+                                <span [routerLink]="['adminprofile']"><i
+                                        style="font-size:1.2rem;color: #00B0FF;margin-left: 1rem;cursor: pointer;"
+                                        class='bx bxs-user-detail' (click)="setprofile()"></i></span><br>
+                                <span [routerLink]="['changepassword']"><i
+                                        style="font-size:1.2rem;color: #00B0FF;margin-left: 1rem;cursor: pointer;"
+                                        class='bx bx-key'></i></span><br>
+                                <span [routerLink]="['admineditprofile']"><i
+                                        style="font-size:1.2rem;color: #00B0FF;margin-left: 1rem;cursor: pointer;"
+                                        class='bx bxs-edit-alt' (click)="setedit()"></i></span><br>
+                            </span><br>
+                            <span (click)="logout()" style="font-size:0.8rem;cursor: pointer;"><i
+                                    style="color: #00B0FF;font-size: 1.2rem;" class='bx bx-log-out bx-tada'></i> SIGN
+                                OUT</span>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </nav>
+        <div>
+            <div style="background-color:#f4f7fb;height: 94vh;">
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+    </div>
+
+</body>

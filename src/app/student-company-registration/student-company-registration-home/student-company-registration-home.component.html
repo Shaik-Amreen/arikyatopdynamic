@@ -1,1 +1,28 @@
-<p>student-company-registration-home works!</p>
+<div *ngIf="wait else loading">
+    <div *ngIf="registered=='no' " style="width: 60vw;margin-left: 18vw;">
+        <div style="line-height: 30px;color: black;">
+            {{data.companyname | uppercase}} - {{data.placementcyclename | uppercase}} comes under
+            {{data.companyprofilesource |
+            uppercase}} ,
+            company profile title is {{data.companyprofiletitle}} . company function is {{data.companyfunction}}
+            and company location is {{data.companylocation}} .If you are interested please REGISTER . Hurry Up !
+            <strong style="color:crimson">DEADLINE is {{data.deadline}}</strong>
+            For more information visit ARIKYA . <br><br><br>
+            <button type="button" (click)="register()">REGISTER</button>
+        </div>
+    </div>
+    <div *ngIf="registered=='yes'">
+        Your response has been submitted .
+    </div>
+    <div *ngIf="registered=='deadline'">
+        Time Up !
+    </div>
+</div>
+<ng-template #loading>
+    <div style="display: flex;justify-content: center;align-items: center;height:90vh">
+        <div style="text-align: center;">
+            <img src="../../../assets//loading.gif"><br>
+            <h5><strong>Time to relax !!! </strong></h5>
+        </div>
+    </div>
+</ng-template>

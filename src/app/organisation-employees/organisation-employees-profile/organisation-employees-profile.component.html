@@ -1,1 +1,126 @@
-<p>organisation-employees-profile works!</p>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':imagemodal}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex;justify-content: center;align-items: center;">
+                <h4 class="modal-title">
+                    <img class="imag1" [src]="tempimg" (click)="img.click()" style="cursor: pointer;" />
+                    <input style="display: none;" accept="image/png, image/jpeg" (change)="handleFileSelect($event)"
+                        type="file" #img>
+                </h4>
+                <div style="position: absolute;top: 5%;right: 5%;font-size: 1.5rem;cursor: pointer;" (click)="remove()">
+                    <i class="fa fa-trash" style="color: #a5081a;"></i>
+                </div>
+            </div>
+            <div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" (click)="imagemodal='none';">Cancel</button>
+                    <button type="button" class="btn btn-primary" style="background-color: #00B0FF;"
+                        (click)="saveimage()">{{saveimg | uppercase}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layout table-responsive" style="padding: 1rem;">
+    <br>
+    <strong style="font-size: 1.2rem;color: #1b1c1e;">
+        <span *ngIf="edit">EDIT</span>
+        PROFILE</strong><br><br>
+
+    <div *ngIf="!edit">
+        <div
+            style="background-color:#fff;padding: 3rem;margin: 2rem;margin-top: 0rem;border-radius: 1%;  box-shadow: 0px 0px 10px 2px rgb(234, 222, 222);width: 60vw;color: #1b1c1e;">
+
+            <div class="row">
+                <div class="col-1">
+                    <img class="imag" [src]="image" (click)="imagemodal='block';tempimg=image"
+                        style="cursor: pointer;height: 100px;" />
+                </div>
+                <div class="col-1"></div>
+                <div class="col">
+                    <h1> {{usereditform.value.firstname}}
+                        {{usereditform.value.middlename}} {{usereditform.value.lastname}}</h1>
+                    <h5>{{data.mail}}</h5>
+
+
+                    <br />
+
+                </div>
+                <div class="col-sm-1"><br>
+                    <i style="margin-top:-20px;font-size: 1.5rem;float: right;color: #00B0FF;cursor: pointer;"
+                        (click)="switchedit()" class='bx bxs-pencil'></i>
+                </div>
+            </div><br /><br />
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            CONTACT
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{usereditform.value.contact}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            DESIGNATION
+                        </td>
+                        <td>:</td>
+                        <td>{{usereditform.value.designation}}</td>
+                    </tr>
+                    <tr>
+                        <td>ROLE</td>
+                        <td>:</td>
+                        <td>{{data.role}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="edit">
+        <div class="card p-2"><br />
+            <div style="display:flex;justify-content: center;align-items: center;">
+                <img class="imag" [src]="image" (click)="imagemodal='block';tempimg=image"
+                    style="cursor: pointer;height: 100px;" />
+            </div>
+            <form style="text-align:left;margin:3vh" [formGroup]="usereditform" (change)="saveit=true">
+                <div style="display: flex;justify-content: space-around;">
+                    <div> <label style="color: gray;">FirstName</label><br>
+                        <input class="form-control shadow-none" type="text" formControlName="firstname"><br>
+                    </div>
+                    <div> <label style="color: gray;">MiddleName</label><br>
+                        <input class="form-control shadow-none" type="text" formControlName="middlename"><br>
+                    </div>
+                    <div> <label style="color: gray;">LastName</label><br>
+                        <input class="form-control shadow-none" type="text" formControlName="lastname"><br>
+                    </div>
+                </div>
+                <div style="margin: 0rem 3vw;">
+                    <label style="color: gray;">Contact number</label><br>
+                    <input class="form-control shadow-none" type="number" formControlName="contact"><br>
+                    <label style="color: gray;">Designation</label><br>
+                    <input class="form-control shadow-none" type="text" formControlName="designation"><br><br />
+                    <button class="btn  btn-primary" style="color: white;background-color: #00B0FF;"
+                        [disabled]="usereditform.status=='INVALID'" (click)="save()">{{savestatus}}</button>&nbsp;
+                    <button class="btn  btn-danger " style="color: white;background-color: #a5081a;"
+                        (click)="close()">CLOSE</button>&nbsp;
+                </div>
+            </form>
+        </div>
+    </div>
+   
+</div>
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1.2rem;">
+        <span style="font-size: 1.3rem;" *ngIf="!saveit">
+            <i class="fa fa-warning"></i>
+        </span>
+        &nbsp;<strong>{{popup}}</strong>&nbsp;
+        <div class="btn btn1" *ngIf="saveit"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i>
+        </div>
+    </span>
+</div>

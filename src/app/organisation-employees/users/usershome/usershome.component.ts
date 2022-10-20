@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonService } from 'src/app/services/common.service';
+import { CommonApiCallService } from 'src/app/services/common-api-call.service';
 @Component({
   selector: 'app-usershome',
   templateUrl: './usershome.component.html',

@@ -1,1 +1,39 @@
 <p>admin-promote-student works!</p>
+<h5 style="color: #1b1c1e;margin-left: 2rem;"><br><strong>PROMOTE STUDENTS</strong></h5>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-4">
+        <button (click)="promote=1;course='btech';currentyear=1;present=2">Promote BTECH Year I
+            students</button><br><br>
+        <button (click)="promote=1;course='btech';currentyear=2;present=3">Promote BTECH Year II
+            students</button><br><br>
+        <button (click)="promote=1;course='btech';currentyear=3;present=4">Promote BTECH Year III
+            students</button><br><br>
+        <button (click)="promote=1;course='btech';currentyear=4;present=0">Promote BTECH Year IV
+            students</button><br><br>
+        <button (click)="promote=1;course='mba';currentyear=1;present=2">Promote MBA Year I students</button><br><br>
+        <button (click)="promote=1;course='mba';currentyear=2;present=0">Promote MBA Year II students</button><br><br>
+        <button (click)="promote=1;course='mba';currentyear=1;present=2">Promote MCA Year I students</button><br><br>
+        <button (click)="promote=1;course='mba';currentyear=2;present=0">Promote MCA Year II students</button>
+    </div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5">
+        <br><br><br><br>
+        <div class="card p-4 " *ngIf="promote==1" style="color: grey;">
+            <span> Are you sure to Promote <strong> {{course.toUpperCase()}} {{currentyear}} </strong>Year Students
+            </span><br>
+            <span>
+                <button class="spe" style="background: #1b1c1e;color: white;width:20%"
+                    (click)="promotestudents()">YES</button>&nbsp;
+                <button class="spe" style="background: #a5081a;color: white;width:20%"
+                    (click)="promote=0">NO</button></span>
+        </div><br>
+        <div *ngIf="promote==2" style="color: #1b1c1e;"><strong>SUCECSSFULLY PROMOTED</strong></div><br>
+    </div>
+</div>
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1rem;">
+        <strong> SUCCESSFULLY SAVED</strong>
+        <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+    </span>
+</div>

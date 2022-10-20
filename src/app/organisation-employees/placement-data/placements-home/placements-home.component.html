@@ -1,1 +1,62 @@
-<p>placements-home works!</p>
+<div class="layout table-responsive" style="margin: 2rem;margin-top: 0%;">
+    <br><br>
+    <h5 style="color: #1b1c1e;"><strong>PLACEMENTS</strong></h5>
+    <br>
+    <div class="in table-responsive">
+        <button id="add" class="btn size" routerLink="/admin/placements/addeditplacements">
+            <div class="row">
+                <div class="col">
+                    Add new placement<br /><span> this academic year</span>
+                </div>
+                <div class="col-2">
+                    <h1><i class='bx bx-layer-plus'></i></h1>
+                </div>
+            </div>
+        </button>
+
+        <div class="row" *ngIf="exists">
+            <div *ngIf="data.length>0">
+                <span style="text-align: left;"><br> <strong>Ongoing placements</strong></span>
+                <div class="col" *ngFor="let c of data"><br>
+                    <button id="hprev" style="color: #1b1c1e;" class="btn size" (click)="placementdetails(c)">
+                        <div class="row">
+                            <div class="col">
+                                {{c.placementcyclename}}<br><span>{{c.fromdate | date:'MMMM YYYY'}} -
+                                    {{c.todate | date:'MMMMYYYY'}}</span>
+                            </div>
+                            <div class="col-2">
+                                <h1><i class='bx bx-calendar'></i></h1>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="previousdata.length>0">
+                <span><br><strong id="scrtop"> Previous placements</strong></span>
+                <div class="col" *ngFor="let c of previousdata"><br>
+                    <button id="hprev" style="color: #1b1c1e;" class="btn size" (click)="placementdetails(c)">
+                        <div class="row">
+                            <div class="col">
+                                {{c.placementcyclename}}<br><span>{{c.fromdate | date:'MMMM YYYY'}} -
+                                    {{c.todate | date:'MMMMYYYY'}}</span>
+                            </div>
+                            <div class="col-2">
+                                <h1><i class='bx bx-calendar'></i></h1>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+                <i class='bx bxs-up-arrow-circle bx-tada' (click)="scrolltop()" style='color:#00b0ff;cursor: pointer;;position: absolute;bottom: 1rem;right: 2rem;font-size:50px;
+                      overflow: hidden;margin: 5px;border: transparent;overflow: hidden;margin-top: -50px;'  to='#scrtop' smooth={true} duration={1000} ></i>    
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="display" [ngClass]="{'view':display}">
+    <span style="font-size: 1.2rem;">
+        &nbsp;<strong>SUCCESSFULLY SAVED</strong>&nbsp;
+        <div class="btn"><i style="color:white;font-size:2rem" class="bx bxs-check-circle"></i></div>
+    </span>
+</div>

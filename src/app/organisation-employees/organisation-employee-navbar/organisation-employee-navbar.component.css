@@ -1,0 +1,398 @@
+
+/* Google Fonts Import Link */
+@import url('../../app.component.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+#cick {
+  position: absolute;
+  height: 100%;
+  width: 0.3rem;
+}
+
+
+.sidebar.close .clicked {
+  border-radius: 0px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: #f4f7fb !important;
+}
+
+.clicked {
+  background-color: #fff !important;
+  color: #1b1c1e !important;
+  border-radius: 7px;
+}
+
+.clicked #cick {
+  background-color: #e90a5f;
+  height: 100%;
+  color: #e90a5f
+}
+
+
+.clickedsubmenu {
+  color: #00B0FF !important;
+  opacity: 1 !important
+}
+
+
+.subparentclicked {
+  background-color: #fff;
+  color: #1b1c1e !important;
+  border-top-right-radius: 7px;
+
+}
+
+#click {
+  background-color: #e90a5f !important;
+  height: 100% !important;
+  color: #e90a5f
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  background: #1b1c1e;
+  z-index: 100;
+  transition: all 0.5s ease;
+}
+
+.sidebar.close {
+  width: 60px;
+}
+
+.contentmargin {
+  padding: 1rem 2rem;
+}
+
+.home_content {
+  position: absolute;
+  height: 100%;
+  width: calc(100% - 200px);
+  left: 200px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2px);
+  transition: all 0.5s ease;
+  margin: 0%;
+}
+
+.sidebar.close~.home_content {
+
+  width: calc(100% - 60px);
+  left: 60px;
+
+}
+
+.navstyle {
+  background-color: #fff;
+  padding: 0.5%;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  display: flex;
+}
+
+
+.dot1 {
+  height: 25px;
+  width: 25px;
+  background-color: #00B0FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.dot {
+  height: 60px;
+  width: 60px;
+  background-color: #00B0FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar .logo-details {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+}
+
+.sidebar .logo-details i {
+  cursor: pointer;
+  color: #E4E9F7;
+  font-size: 25px;
+}
+
+.sidebar .logo-details .logo_name {
+  font-family: 'Saira Stencil One', 'cursive';
+  cursor: pointer;
+  font-size: 25px;
+  color: #fff;
+  
+  transition: 0.3s ease;
+  transition-delay: 0.1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar.close .logo-details .logo_name {
+  transition-delay: 0s;
+  opacity: 0;
+  pointer-events: none;
+
+}
+
+
+
+.sidebar.close #btn {
+  position: absolute;
+  color: #fff;
+  top: 6px;
+  left: 50%;
+  font-size: 22px;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.sidebar #btn {
+  left: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar .nav-links {
+  height: 100%;
+
+  overflow: auto;
+}
+
+.sidebar.close .nav-links {
+  overflow: visible;
+
+}
+
+.sidebar .nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar .nav-links li {
+  border-radius: 7px;
+  margin-right: 0.5rem;
+  position: relative;
+  list-style: none;
+  transition: all 0.4s ease;
+  cursor: pointer;
+
+}
+
+.sidebar .nav-links li:hover {
+  background: #383737;
+  margin: 0.5rem;
+}
+
+.sidebar.close .nav-links li {
+  margin: 0rem;
+  border-radius: 0px;
+}
+
+.sidebar.close .nav-links li:hover {
+  background: #383737;
+}
+
+.sidebar .nav-links li .iocn-link {
+ 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar.close .nav-links li .iocn-link {
+ 
+  padding: 0%;
+  display: block
+}
+
+.sidebar .nav-links li i {
+  height: 50px;
+  min-width: 60px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-links li.showMenu i.arrow {
+  transform: rotate(-180deg);
+}
+
+.sidebar.close .nav-links i.arrow {
+  display: none;
+}
+
+.sidebar .nav-links li a {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+#one {
+  color: #fff;
+}
+
+
+
+#two {
+  color: #fff;
+}
+
+.sidebar .nav-links li a .link_name {
+
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: all 0.4s ease;
+}
+
+.sidebar.close .nav-links li a .link_name {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar .nav-links li .sub-menu {
+
+  display: none;
+}
+
+.sidebar.close .nav-links li .sub-menu {
+
+  background: #383737;
+
+}
+
+.sidebar .nav-links li.showMenu .sub-menu {
+  background: #383737;
+  display: block;
+  color: #fff !important;
+  border-bottom-right-radius: 7px;
+  margin: 0rem;
+  padding-left: 3.6rem
+}
+.sidebar .nav-links li .sub-menu a {
+ 
+
+  font-size: 0.8rem;
+  padding: 5px 0;
+  white-space: nowrap;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+
+.sidebar .lowParentClass {
+
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background-color: #383737;
+
+}
+
+.sidebar.close .lowParentClass {
+  background-color: #1b1c1e !important;
+}
+
+.sidebar .nav-links li .sub-menu a:hover {
+
+  opacity: 0
+}
+
+.sidebar .nav-links li .sub-menu li:hover {
+
+  opacity: 1;
+  margin: 0rem !important;
+}
+
+.sidebar .nav-links li .sub-menu a:hover {
+  opacity: 1;
+}
+
+.sidebar.close .nav-links li .sub-menu {
+  position: absolute;
+  left: 100%;
+  top: -10px;
+  margin-top: 0;
+  padding: 10px 20px;
+  border-radius: 0 6px 6px 0;
+  opacity: 0;
+  display: block;
+  pointer-events: none;
+  transition: 0s;
+}
+
+.sidebar.close .nav-links li:hover .sub-menu {
+  top: 0;
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+}
+
+.sidebar .nav-links li .sub-menu .link_name {
+  display: none;
+}
+
+.sidebar.close .nav-links li .sub-menu .link_name {
+  font-size: 18px;
+  opacity: 1;
+  display: block;
+}
+
+.sidebar .nav-links li .sub-menu.blank {
+  opacity: 1;
+  pointer-events: auto;
+  padding: 3px 20px 6px 16px;
+  opacity: 0;
+  pointer-events: none;
+  background-color: #e90a5f !important;
+}
+
+.sidebar .nav-links li:hover .sub-menu.blank {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 420px) {
+  .sidebar.close .nav-links li .sub-menu {
+    display: none;
+  }
+}

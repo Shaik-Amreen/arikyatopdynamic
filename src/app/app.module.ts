@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { CommonApiCallService } from 'src/app/services/common-api-call.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OrganisationEmployeesModule } from './organisation-employees/organisation-employees.module';
 import { OrganisationEmployeesComponent } from './organisation-employees/organisation-employees.component';
 import { CodingAdminModule } from './organisation-employees/coding-admin/coding-admin.module';
 import { QuizAdminModule } from './organisation-employees/quiz-admin/quiz-admin.module';
+
 import { StudentViewAdminModule } from './organisation-employees/student-view-admin/student-view-admin.module';
 import { PlacementDataModule } from './organisation-employees/placement-data/placement-data.module';
 import { ArikyaHomePageComponent } from './arikya-home-page/arikya-home-page.component';
@@ -45,8 +46,9 @@ import { ChangePasswordComponent } from './common-components/change-password/cha
     StudentViewAdminModule,
     PlacementDataModule,
     StudentCompanyRegistrationModule,
+  
   ],
-  providers: [],
+  providers: [CommonApiCallService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
