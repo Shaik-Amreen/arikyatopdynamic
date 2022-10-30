@@ -2,3 +2,25 @@
     background-color: #f4f7fb;
     height:93vh;
 }
+.l1.layout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+.l2.l1.layout{
+    text-align: center;
+}
+.l3{
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+.l4.l3{
+    text-align: center;
+}
+.search.l4.l3{
+    max-height:300px
+}

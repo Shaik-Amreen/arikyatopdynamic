@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonApiCallService } from '../services/common-api-call.service';
 @Component({
   selector: 'app-arikya-contact',
   templateUrl: './arikya-contact.component.html',
@@ -17,7 +16,7 @@ export class ArikyaContactComponent implements OnInit {
       'feed': new FormControl('', Validators.required)
     })
   }
-
+  
   errmsg = ''
 
   send() {
